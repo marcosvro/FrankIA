@@ -253,6 +253,7 @@ for i in range(nEstados):
 
 
 while 1:
+	break
 	dtime = time.time() - start
 	start = time.time()
 	t_fps += dtime
