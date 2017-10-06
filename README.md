@@ -1,1 +1,2 @@
-# FrankIA
+# Frank
+Frank algorithms
