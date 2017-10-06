@@ -241,7 +241,7 @@ perna = 1
 incli = [128., 128.]
 
 for i in range(nEstados):
-	data_pelv[i][0] = (data_pelv[i][0]-90)*-1 + 90
+	#data_pelv[i][0] = (data_pelv[i][0]-90)*-1 + 90
 	#data_foot[i][0] = (data_foot[i][0]-90)*-1 + 90
 	data_pelv[i][2] = (data_pelv[i][2]-90)*-1 + 90
 	data_foot[i][2] = (data_foot[i][2]-90)*-1 + 90
