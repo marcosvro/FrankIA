@@ -46,7 +46,7 @@
 #define MAX_RANGE_SERVO_10 2400
 #define MAX_RANGE_SERVO_11 2400
 
-int motors[] = {90+20, 90-1, 90, 90-5, 90+5,          90+10, 90+7, 90, 90+5, 90-15,       90+7, 90+49}; //posição motores
+int motors[] = {90+8, 90+4, 90+3, 90-9, 90-8,          90+15, 90-4, 90-2, 90-11, 90+4,       90, 90-3}; //posição motores
 int qi[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};     //posição inicial calibração copia
 
 Servo servo_0;
@@ -162,14 +162,14 @@ void initServos() {
 
 void walkState() {
   motors[0] = qi[0] + faz[0];
-  motors[1] = qi[1] + faz[1];
-  motors[2] = qi[2] + faz[2];
-  motors[3] = qi[3] + faz[3];
+  motors[1] = qi[1] + faz[1]*-1;
+  motors[2] = qi[2] + faz[2]*-1;
+  motors[3] = qi[3] + faz[3]*-1;
   motors[4] = qi[4] + faz[4];
   motors[5] = qi[5] + faz[8]*-1;
-  motors[6] = qi[6] + faz[9]*-1;
-  motors[7] = qi[7] + faz[10]*-1;
-  motors[8] = qi[8] + faz[11]*-1;
+  motors[6] = qi[6] + faz[9];
+  motors[7] = qi[7] + faz[10];
+  motors[8] = qi[8] + faz[11];
   motors[9] = qi[9] + faz[12]*-1;
 
 //  motors[0] = qi[0];
@@ -191,14 +191,14 @@ void walkState() {
 
 void iddleState() {
   motors[0] = qi[0] + 0;
-  motors[1] = qi[1] + 16;
-  motors[2] = qi[2] + 36;
-  motors[3] = qi[3] + (-20);
+  motors[1] = qi[1] + (-23);
+  motors[2] = qi[2] + (-22);
+  motors[3] = qi[3] + 5;
   motors[4] = qi[4] + 0;
   motors[5] = qi[5] + 0;
-  motors[6] = qi[6] + (-16);
-  motors[7] = qi[7] + (-36);
-  motors[8] = qi[8] + 20;
+  motors[6] = qi[6] + 23;
+  motors[7] = qi[7] + 22;
+  motors[8] = qi[8] + (-5);
   motors[9] = qi[9] + 0;
  
   writeServos(tempoDelayServo);
@@ -206,18 +206,18 @@ void iddleState() {
 
 void leitura() {
   while(!Serial2.available());
-    int s = Serial2.read();
-    if(s==255){
-          for(int i=0;i<16;i++){
-               while(!Serial2.available());
-               faz[i] = Serial2.read() - 90;
-          }
-          while(!Serial2.available());
-          s = Serial2.read();
-          if(s == 254){
-            state = true;
-          }
-    }
+  int s = Serial2.read();
+  if(s==255){
+        for(int i=0;i<16;i++){
+             while(!Serial2.available());
+             faz[i] = Serial2.read() - 90;
+        }
+        while(!Serial2.available());
+        s = Serial2.read();
+        if(s == 254){
+          state = true;
+        }
+  }
 }
 
 void writeServos(int espera) {

@@ -13,7 +13,7 @@ from ikpy import plot_utils
 deslocamentoZpes = 2.5
 deslocamentoXpes = 0.
 deslocamentoYpes = 0.
-deslocamentoYpelves = 4.3
+deslocamentoYpelves = 2.
 periodo = 20.
 nEstados = 1000
 dMovx = deslocamentoXpes/nEstados
@@ -48,10 +48,17 @@ jointsf2p = np.deg2rad([0., 15.3, -35., 0.])
 jointsp2f = np.deg2rad([0., 15.3, -35., 0.])
 #jointsp2f = np.deg2rad([-5., 15., 0.])
 
+"""
+pos_test = foot2pelv.forward_kinematics(np.deg2rad([0.,23., -22.,  0.]))
+print (pos_test[:3, 3])
+exit()
+"""
+
+
 
 #start target position
-pos_inicial_pelves = [0., 0., 14.]
-pos_inicial_pe = [0., 0., 14.]
+pos_inicial_pelves = [3.33, 0., 14.03]
+pos_inicial_pe = [3.33, 0., 14.03]
 
 frame_target = np.eye(4)
 frame_target[:3, 3] = pos_inicial_pelves
@@ -69,7 +76,7 @@ jointsp2f = ik2;
 	parm: indice(int) - diz em qual posicao do vetor de tragetoria deve ser armazenada a cinematica e qual momento da tragetoria calcular'''
 def thread_cinematica_pelves(indice):
 	pos = pos_inicial_pelves
-	p = (deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/400) - np.exp((2*(indice-nEstados/2))/-400))/(np.exp((2*(indice-nEstados/2))/400)+np.exp((2*(indice-nEstados/2))/-400)))
+	p = 3.33 + (deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/400) - np.exp((2*(indice-nEstados/2))/-400))/(np.exp((2*(indice-nEstados/2))/400)+np.exp((2*(indice-nEstados/2))/-400)))
 	pos[0] = 0.5*p
 	pos[1] = -deslocamentoYpelves*np.sin(indice*np.pi/nEstados)
 	frame_target = np.eye(4)
@@ -114,8 +121,8 @@ def thread_cinematica_pelves(indice):
 	parm: indice(int) - diz em qual posicao do vetor de tragetoria deve ser armazenada a cinematica e qual momento da tragetoria calcular'''
 def thread_cinematica_pe(indice):
 	pos = pos_inicial_pe
-	pos[0] = (-deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/400) - np.exp((2*(indice-nEstados/2))/-400))/(np.exp((2*(indice-nEstados/2))/400)+np.exp((2*(indice-nEstados/2))/-400)))
-	pos[2] = 14. - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/25000)	
+	pos[0] = 3.33 + (-deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/400) - np.exp((2*(indice-nEstados/2))/-400))/(np.exp((2*(indice-nEstados/2))/400)+np.exp((2*(indice-nEstados/2))/-400)))
+	pos[2] = 14.03 - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/35000)	
 
 	frame_target = np.eye(4)
 	frame_target[:3, 3] = pos
@@ -233,7 +240,7 @@ while 1:
 	#sending data
 	########################################	incluir iner no vetor de rotacao	##############################################
 	#thread_cinematica_pe(693)
-	to_send = [666]+[it - 90 for it in data_pelv[state]]+[it - 90 for it in data_foot[state]]+[666]
+	to_send = [666]+[it - 90 for it in data_pelv[state]]+["---"]+[it - 90 for it in data_foot[state]]+[666]
 
 	#timers
 	dTime = time.time() - start
