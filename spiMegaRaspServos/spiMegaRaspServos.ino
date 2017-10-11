@@ -108,7 +108,7 @@ void setup()
 
 void loop() {
   //initServos();
-  iddleState();
+  //iddleState();
   
   leitura();
   if(state){
@@ -121,13 +121,10 @@ void loop() {
     Serial.print("  ");
     Serial.println((int)faz[12]);
     //Serial.println("Recebido e nos conformes!!");
-    //walkState();
+    walkState();
     
     
   }
-  
-  
-
 }
 
 void initServos() {
