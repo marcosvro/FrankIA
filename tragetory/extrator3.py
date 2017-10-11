@@ -15,7 +15,7 @@ deslocamentoXpes = 0.
 deslocamentoYpes = 0.
 deslocamentoYpelves = 5.5
 periodo = 20.
-nEstados = 1000
+nEstados = 500
 dMovx = deslocamentoXpes/nEstados
 frameRate = periodo/nEstados
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
@@ -76,7 +76,7 @@ jointsp2f = ik2;
 	parm: indice(int) - diz em qual posicao do vetor de tragetoria deve ser armazenada a cinematica e qual momento da tragetoria calcular'''
 def thread_cinematica_pelves(indice):
 	pos = pos_inicial_pelves
-	p = (deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/400) - np.exp((2*(indice-nEstados/2))/-400))/(np.exp((2*(indice-nEstados/2))/400)+np.exp((2*(indice-nEstados/2))/-400)))
+	p = (deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/200) - np.exp((2*(indice-nEstados/2))/-200))/(np.exp((2*(indice-nEstados/2))/200)+np.exp((2*(indice-nEstados/2))/-200)))
 	pos[0] = 0.5*p + 4.33
 	pos[1] = -deslocamentoYpelves*np.sin(indice*np.pi/nEstados)
 	frame_target = np.eye(4)
@@ -121,8 +121,8 @@ def thread_cinematica_pelves(indice):
 	parm: indice(int) - diz em qual posicao do vetor de tragetoria deve ser armazenada a cinematica e qual momento da tragetoria calcular'''
 def thread_cinematica_pe(indice):
 	pos = pos_inicial_pe
-	pos[0] = 4.33 + (-deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/400) - np.exp((2*(indice-nEstados/2))/-400))/(np.exp((2*(indice-nEstados/2))/400)+np.exp((2*(indice-nEstados/2))/-400)))
-	pos[2] = 14.03 - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/20000)	
+	pos[0] = 4.33 + (-deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/200) - np.exp((2*(indice-nEstados/2))/-200))/(np.exp((2*(indice-nEstados/2))/200)+np.exp((2*(indice-nEstados/2))/-200)))
+	pos[2] = 14.03 - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/8000)	
 
 	frame_target = np.eye(4)
 	frame_target[:3, 3] = pos
