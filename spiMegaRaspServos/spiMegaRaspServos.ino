@@ -16,7 +16,7 @@
 #define PIN_SERVO_7 2
 #define PIN_SERVO_8 5
 #define PIN_SERVO_9 18
-#define PIN_SERVO_10 0
+#define PIN_SERVO_10 17
 #define PIN_SERVO_11 19
 
 #define MIN_RANGE_SERVO_0 700 //calcanhar_eixo_X
@@ -202,15 +202,15 @@ void iddleState() {
 }
 
 void leitura() {
-  while(!Serial2.available());
-  int s = Serial2.read();
+  while(!Serial.available());
+  int s = Serial.read();
   if(s==255){
         for(int i=0;i<16;i++){
-             while(!Serial2.available());
-             faz[i] = Serial2.read() - 90;
+             while(!Serial.available());
+             faz[i] = Serial.read() - 90;
         }
-        while(!Serial2.available());
-        s = Serial2.read();
+        while(!Serial.available());
+        s = Serial.read();
         if(s == 254){
           state = true;
         }
