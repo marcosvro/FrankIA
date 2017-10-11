@@ -13,7 +13,7 @@ from ikpy import plot_utils
 deslocamentoZpes = 2.5
 deslocamentoXpes = 0.
 deslocamentoYpes = 0.
-deslocamentoYpelves = 2.
+deslocamentoYpelves = 3.
 periodo = 20.
 nEstados = 1000
 dMovx = deslocamentoXpes/nEstados
@@ -122,7 +122,7 @@ def thread_cinematica_pelves(indice):
 def thread_cinematica_pe(indice):
 	pos = pos_inicial_pe
 	pos[0] = 3.33 + (-deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/400) - np.exp((2*(indice-nEstados/2))/-400))/(np.exp((2*(indice-nEstados/2))/400)+np.exp((2*(indice-nEstados/2))/-400)))
-	pos[2] = 14.03 - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/35000)	
+	pos[2] = 14.03 - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/30000)	
 
 	frame_target = np.eye(4)
 	frame_target[:3, 3] = pos
