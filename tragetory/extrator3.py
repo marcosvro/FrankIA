@@ -13,9 +13,9 @@ from ikpy import plot_utils
 deslocamentoZpes = 2.5
 deslocamentoXpes = 5.
 deslocamentoYpes = 0.
-deslocamentoYpelves = 4.2
+deslocamentoYpelves = 4.
 periodo = 20.
-nEstados = 250
+nEstados = 125
 dMovx = deslocamentoXpes/nEstados
 frameRate = periodo/nEstados
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
