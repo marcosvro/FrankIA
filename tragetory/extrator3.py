@@ -10,7 +10,7 @@ from ikpy import plot_utils
 
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-deslocamentoZpes = 3.5
+deslocamentoZpes = 3.
 deslocamentoXpes = 7.
 deslocamentoYpes = 0.
 deslocamentoYpelves = 3.9
@@ -23,7 +23,7 @@ data_pelv = np.zeros((nEstados,8), dtype=np.uint8)
 
 
 #perna - quadril = target
-link0 = ik.link.URDFLink("calc_lateral", [0,0, 0], [0,0,0], [1,0,0], use_symbolic_matrix=True, bounds=(-45,45))
+link0 = ik.link.URDFLink("calc_lateral", [0,0, 0], [0,0,0], [1,0,0], use_symbolic_matrix=True, bounds=(-90,90))
 link1 = ik.link.URDFLink("calc_frontal", [0,0, 0], [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds=(-90,90))
 link2 = ik.link.URDFLink("joelho", [0,0,8.24] , [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds=(-90,90))
 link3 = ik.link.URDFLink("quadril", [0,0,6.45], [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds=(-90,90))
@@ -57,8 +57,8 @@ exit()
 
 
 #start target position
-pos_inicial_pelves = [3.33, 0., 14.03]
-pos_inicial_pe = [3.33, 0., 14.03]
+pos_inicial_pelves = [3.33, 0., 14.]
+pos_inicial_pe = [3.33, 0., 14.]
 
 frame_target = np.eye(4)
 frame_target[:3, 3] = pos_inicial_pelves
@@ -122,7 +122,7 @@ def thread_cinematica_pelves(indice):
 def thread_cinematica_pe(indice):
 	pos = pos_inicial_pe
 	pos[0] = 4.33 + (-deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/100) - np.exp((2*(indice-nEstados/2))/-100))/(np.exp((2*(indice-nEstados/2))/100)+np.exp((2*(indice-nEstados/2))/-100)))
-	pos[2] = 14.03 - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/4000)	
+	pos[2] = 14. - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/4000)	
 
 	frame_target = np.eye(4)
 	frame_target[:3, 3] = pos
