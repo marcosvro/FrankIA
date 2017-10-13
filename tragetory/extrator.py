@@ -249,7 +249,7 @@ for i in range(nEstados):
 	data_foot[i][3] = data_foot[i][3] - 5
 	#data_pelv[i][1] = 128
 	#data_pelv[i][4] = 90
-	data_foot[i][4] = 90
+	#data_foot[i][4] = 90
 
 
 while 1:
