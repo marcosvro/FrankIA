@@ -13,7 +13,7 @@ import serial
 deslocamentoZpes = 2.
 deslocamentoXpes = 7.
 deslocamentoYpelves = 3.6
-periodo = 0.25
+periodo = 0.5
 nEstados = 250
 dMovx = deslocamentoXpes/nEstados
 frameRate = periodo/nEstados
