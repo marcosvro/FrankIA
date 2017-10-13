@@ -294,8 +294,8 @@ while 1:
 
 	#fps calculator
 	if t_fps > 1:
-		os.system("clear")
-		print ("fps:", fps)
+		#os.system("clear")
+		#print ("fps:", fps)
 		t_fps = 0
 		fps = 0
 	fps += 1
@@ -334,7 +334,7 @@ while 1:
 	else:
 		send_test = np.array([255]+data_foot[state].tolist()+data_pelv[state].tolist()+[254], dtype=np.uint8)
 		ser.write(''.join(str(chr(e)) for e in send_test))
-	#print state," --- ",send_test
+	print state," --- ",send_test
 
 	'''send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
         send_test[1] = 60*math.sin(t_fps*2.*3.14/3) + 90
