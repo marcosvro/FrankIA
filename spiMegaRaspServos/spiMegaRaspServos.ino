@@ -46,7 +46,7 @@
 #define MAX_RANGE_SERVO_10 2400
 #define MAX_RANGE_SERVO_11 2400
 
-int motors[] = {90+8, 90+4, 90+3, 90-9, 90-8,          90+15, 90-4, 90-2, 90-11, 90+4,       90, 90-3}; //posição motores
+int motors[] = {90+8, 90+4, 90+3, 90-9, 90-8,          90+15, 90-4, 90-2, 90-11, 90+4,       90-10, 90-3}; //posição motores
 int qi[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};     //posição inicial calibração copia
 
 Servo servo_0;
@@ -113,18 +113,12 @@ void loop() {
   leitura();
   if(state){
     state = false;
-//    for(int i = 0; i < 16; i++){
-//      Serial.print(int(faz[i]));
-//      Serial.print(" ");
-//    }
-    Serial.print((int)faz[4]);
-    Serial.print("  ");
-    Serial.println((int)faz[12]);
-    //Serial.println("Recebido e nos conformes!!");
+    Serial.println("Com dados");
     walkState();
-    
-    
+  }else{
+    Serial.println("Sem dados!!");
   }
+  
 }
 
 void initServos() {
@@ -162,26 +156,13 @@ void walkState() {
   motors[1] = qi[1] + faz[1]*-1;
   motors[2] = qi[2] + faz[2]*-1;
   motors[3] = qi[3] + faz[3]*-1;
-  motors[4] = qi[4] + faz[4];
+  motors[4] = qi[4] + faz[4]*-1;
+  
   motors[5] = qi[5] + faz[8]*-1;
   motors[6] = qi[6] + faz[9];
   motors[7] = qi[7] + faz[10];
   motors[8] = qi[8] + faz[11];
-  motors[9] = qi[9] + faz[12]*-1;
-
-//  motors[0] = qi[0];
-//  motors[1] = qi[1] + faz[1];
-//  motors[2] = qi[2];
-//  
-//  motors[3] = qi[3];
-//  motors[4] = qi[4];
-//  
-//  motors[5] = qi[5];
-//  motors[6] = qi[6] + faz[9]*-1;
-//  motors[7] = qi[7];
-//  
-//  motors[8] = qi[8];
-//  motors[9] = qi[9];
+  motors[9] = qi[9] + faz[12];
   
   writeServos(tempoDelayServo);
 }
