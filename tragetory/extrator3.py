@@ -87,7 +87,7 @@ def thread_cinematica_pelves(indice):
 	ik = foot2pelv.inverse_kinematics(frame_target,initial_position=jointsf2p)
 	ik = np.rad2deg(ik)
 
-	roll = -deslocamentoYpelves*np.sin(indice*np.pi/nEstados)
+	roll = -ik[0]
 	aux = 8.24*math.sin(np.deg2rad(ik[1]))
 	aux = pos[0] - aux
 	pitch = math.asin(aux/6.45)
@@ -136,7 +136,7 @@ def thread_cinematica_pe(indice):
 	ik = pelv2foot.inverse_kinematics(frame_target,initial_position=last_pos)
 	ik = np.rad2deg(ik)
 
-	roll = 2.*15.*np.sin(indice*np.pi/nEstados)
+	roll = -data_pelv[indice][0]
 	aux = 8.24*math.sin(np.deg2rad(ik[1]))
 	aux = pos[0] - aux
 	pitch = math.asin(aux/6.45)
@@ -156,7 +156,7 @@ def thread_cinematica_pe(indice):
 	#quadril
 	data_foot[indice][3] = 90 + pitch
 	#pelves
-	data_foot[indice][4] = 90 + roll
+	data_foot[indice][4] = 90 - roll
 	#torso 
 	data_foot[indice][5] = 90
 	#braco
