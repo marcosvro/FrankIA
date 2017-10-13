@@ -10,12 +10,12 @@ from ikpy import plot_utils
 
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-deslocamentoZpes = 3.
-deslocamentoXpes = 5.
+deslocamentoZpes = 2.5
+deslocamentoXpes = 8.
 deslocamentoYpes = 0.
-deslocamentoYpelves = 2.5
+deslocamentoYpelves = 4.
 periodo = 20.
-nEstados = 125
+nEstados = 200
 dMovx = deslocamentoXpes/nEstados
 frameRate = periodo/nEstados
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
