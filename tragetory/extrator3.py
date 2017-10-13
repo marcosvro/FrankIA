@@ -122,7 +122,7 @@ def thread_cinematica_pelves(indice):
 def thread_cinematica_pe(indice):
 	pos = pos_inicial_pe
 	pos[0] = 4.33 + (-deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/100) - np.exp((2*(indice-nEstados/2))/-100))/(np.exp((2*(indice-nEstados/2))/100)+np.exp((2*(indice-nEstados/2))/-100)))
-	pos[2] = 14.02 - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/4000)	
+	pos[2] = 14.02 - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/2000)	
 
 	frame_target = np.eye(4)
 	frame_target[:3, 3] = pos
