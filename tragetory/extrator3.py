@@ -15,7 +15,7 @@ deslocamentoXpes = 7.
 deslocamentoYpes = 0.
 deslocamentoYpelves = 3.3
 periodo = 20.
-nEstados = 125
+nEstados = 200
 dMovx = deslocamentoXpes/nEstados
 frameRate = periodo/nEstados
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
