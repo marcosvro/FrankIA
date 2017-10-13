@@ -13,7 +13,7 @@ from ikpy import plot_utils
 deslocamentoZpes = 3.5
 deslocamentoXpes = 5.
 deslocamentoYpes = 0.
-deslocamentoYpelves = 3.
+deslocamentoYpelves = 3.9
 periodo = 20.
 nEstados = 250
 dMovx = deslocamentoXpes/nEstados
@@ -76,7 +76,7 @@ jointsp2f = ik2;
 	parm: indice(int) - diz em qual posicao do vetor de tragetoria deve ser armazenada a cinematica e qual momento da tragetoria calcular'''
 def thread_cinematica_pelves(indice):
 	pos = pos_inicial_pelves
-	p = (deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/100) - np.exp((2*(indice-nEstados/2))/-100))/(np.exp((2*(indice-nEstados/2))/100)+np.exp((2*(indice-nEstados/2))/-100)))
+	p = (deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/75) - np.exp((2*(indice-nEstados/2))/-75))/(np.exp((2*(indice-nEstados/2))/75)+np.exp((2*(indice-nEstados/2))/-75)))
 	pos[0] = 0.5*p + 4.33
 	pos[1] = -deslocamentoYpelves*np.sin(indice*np.pi/nEstados)
 	frame_target = np.eye(4)
@@ -121,7 +121,7 @@ def thread_cinematica_pelves(indice):
 	parm: indice(int) - diz em qual posicao do vetor de tragetoria deve ser armazenada a cinematica e qual momento da tragetoria calcular'''
 def thread_cinematica_pe(indice):
 	pos = pos_inicial_pe
-	pos[0] = 4.33 + (-deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/100) - np.exp((2*(indice-nEstados/2))/-100))/(np.exp((2*(indice-nEstados/2))/100)+np.exp((2*(indice-nEstados/2))/-100)))
+	pos[0] = 4.33 + (-deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/75) - np.exp((2*(indice-nEstados/2))/-75))/(np.exp((2*(indice-nEstados/2))/75)+np.exp((2*(indice-nEstados/2))/-75)))
 	pos[2] = 14.02 - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/2000)	
 
 	frame_target = np.eye(4)
