@@ -12,7 +12,7 @@ import serial
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 deslocamentoZpes = 2.
 deslocamentoXpes = 7.
-deslocamentoYpelves = 4.
+deslocamentoYpelves = 3.6
 periodo = 0.25
 nEstados = 200
 dMovx = deslocamentoXpes/nEstados
