@@ -13,7 +13,7 @@ from ikpy import plot_utils
 deslocamentoZpes = 4.4
 deslocamentoXpes = 7.
 deslocamentoYpes = 0.
-deslocamentoYpelves = 4.
+deslocamentoYpelves = 3.5
 periodo = 20.
 nEstados = 200
 dMovx = deslocamentoXpes/nEstados
