@@ -138,7 +138,7 @@ def thread_cinematica_pe(indice):
 	ik = pelv2foot.inverse_kinematics(frame_target,initial_position=last_pos)
 	ik = np.rad2deg(ik)
 
-	roll = data_pelv[indice][0]-90
+	roll = 2*(data_pelv[indice][0]-90)
 	aux = 8.24*math.sin(np.deg2rad(ik[1]))
 	aux = pos[0] - aux
 	pitch = math.asin(aux/6.45)
