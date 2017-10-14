@@ -13,7 +13,7 @@ from ikpy import plot_utils
 deslocamentoZpes = 0.
 deslocamentoXpes = 0.
 deslocamentoYpes = 0.
-deslocamentoYpelves = 2.
+deslocamentoYpelves = 1.3
 
 
 periodo = 20.
