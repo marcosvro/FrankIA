@@ -221,7 +221,7 @@ try:
 		data_foot = np.loadtxt('data_foot_walk_v1.txt').reshape((nEstados,8))
 		print ("File data_foot loaded!")
 	with open('data_pelv_walk_v1.txt', 'r') as f:
-		data_pelv = np.loadtxt('data_foot_walk_v1.txt').reshape((nEstados,8))
+		data_pelv = np.loadtxt('data_pelv_walk_v1.txt').reshape((nEstados,8))
 		print ("File data_pelv loaded!")
 except IOError:
 	print "Error"
