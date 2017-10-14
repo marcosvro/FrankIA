@@ -10,7 +10,7 @@ from ikpy import plot_utils
 
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-deslocamentoZpes = 0.
+deslocamentoZpes = 2.
 deslocamentoXpes = 0.
 deslocamentoYpes = 0.
 deslocamentoYpelves = 3.35
@@ -29,7 +29,7 @@ link0 = ik.link.URDFLink("calc_lateral", [0,0, 0], [0,0,0], [1,0,0], use_symboli
 link1 = ik.link.URDFLink("calc_frontal", [0,0, 0], [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds=(-90,90))
 link2 = ik.link.URDFLink("joelho", [0,0,8.24] , [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds=(-90,90))
 link3 = ik.link.URDFLink("quadril", [0,0,6.45], [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds=(-90,90))
-#link4 = ik.link.URDFLink("pelves", [0, 1.7, 4], [0, 0, 0], [1, 0, 0], use_symbolic_matrix=True, bounds=(-50,50))
+#link4 = ik.link.URDFLink("pelves", [0, 1.7, 4], [0,	 0, 0], [1, 0, 0], use_symbolic_matrix=True, bounds=(-50,50))
 
 #perna - pe = target
 #link5 = ik.link.URDFLink("pelves", [0,0,0], [0,0,0], [1,0,0], use_symbolic_matrix=True, bounds = (-50, 50))
