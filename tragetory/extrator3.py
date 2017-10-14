@@ -123,7 +123,7 @@ def thread_cinematica_pelves(indice):
 	parm: indice(int) - diz em qual posicao do vetor de tragetoria deve ser armazenada a cinematica e qual momento da tragetoria calcular'''
 def thread_cinematica_pe(indice):
 	pos = pos_inicial_pe
-	pos[0] = 4.33 + (-deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/100) - np.exp((2*(indice-nEstados/2))/-100))/(np.exp((2*(indice-nEstados/2))/100)+np.exp((2*(indice-nEstados/2))/-100)))
+	pos[0] = 4.33 + 0.5*(-deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/100) - np.exp((2*(indice-nEstados/2))/-100))/(np.exp((2*(indice-nEstados/2))/100)+np.exp((2*(indice-nEstados/2))/-100)))
 	pos[2] = 14. - deslocamentoZpes*np.exp(-((indice-nEstados/2)**2)/2000)	
 
 	frame_target = np.eye(4)
