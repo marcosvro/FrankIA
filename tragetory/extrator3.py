@@ -78,7 +78,7 @@ jointsp2f = ik2;
 	parm: indice(int) - diz em qual posicao do vetor de tragetoria deve ser armazenada a cinematica e qual momento da tragetoria calcular'''
 def thread_cinematica_pelves(indice):
 	pos = pos_inicial_pelves
-	p = (deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/75) - np.exp((2*(indice-nEstados/2))/-75))/(np.exp((2*(indice-nEstados/2))/75)+np.exp((2*(indice-nEstados/2))/-75)))
+	p = (deslocamentoXpes/2)*((np.exp((2*(indice-nEstados/2))/100) - np.exp((2*(indice-nEstados/2))/-100))/(np.exp((2*(indice-nEstados/2))/100)+np.exp((2*(indice-nEstados/2))/-100)))
 	pos[0] = 0.5*p + 4.33
 	pos[1] = -deslocamentoYpelves*np.sin(indice*np.pi/nEstados)
 	frame_target = np.eye(4)
