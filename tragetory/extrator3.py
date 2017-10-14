@@ -8,6 +8,8 @@ import spidev
 import ikpy as ik
 from ikpy import plot_utils
 
+#v1 = 250 estados
+
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 deslocamentoZpes = 1.5

@@ -14,7 +14,7 @@ deslocamentoZpes = 2.
 deslocamentoXpes = 7.
 deslocamentoYpelves = 4.
 periodo = 0.125
-nEstados = 125
+nEstados = 250
 dMovx = deslocamentoXpes/nEstados
 frameRate = periodo/nEstados
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
@@ -217,11 +217,11 @@ iner = np.array([0., 0., 0.], dtype=np.uint8)
 
 #reading file
 try:
-	with open('data_foot.txt', 'r') as f:
-		data_foot = np.loadtxt('data_foot.txt').reshape((nEstados,8))
+	with open('data_foot_walk_v1.txt', 'r') as f:
+		data_foot = np.loadtxt('data_foot_walk_v1.txt').reshape((nEstados,8))
 		print ("File data_foot loaded!")
-	with open('data_pelv.txt', 'r') as f:
-		data_pelv = np.loadtxt('data_pelv.txt').reshape((nEstados,8))
+	with open('data_pelv_walk_v1.txt', 'r') as f:
+		data_pelv = np.loadtxt('data_foot_walk_v1.txt').reshape((nEstados,8))
 		print ("File data_pelv loaded!")
 except IOError:
 	print "Error"
