@@ -46,7 +46,7 @@
 #define MAX_RANGE_SERVO_10 2400
 #define MAX_RANGE_SERVO_11 2400
 
-int motors[] = {90+8, 90+4, 90+3, 90-9, 90-8,          90+15, 90-4, 90-2, 90-11, 90+4,       90-10, 90-3}; //posição motores
+int motors[] = {90+8, 90+4, 90+5, 90-13, 90-8,          90+15, 90-4, 90, 90-14, 90+4,       90-14, 90-5}; //posição motores
 int qi[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};     //posição inicial calibração copia
 
 Servo servo_0;
