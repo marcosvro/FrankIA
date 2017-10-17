@@ -12,7 +12,7 @@ from ikpy import plot_utils
 
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-deslocamentoZpes = 0.9
+deslocamentoZpes = 0.5
 deslocamentoXpes = 0.
 deslocamentoYpes = 0.
 deslocamentoYpelves = 1.
