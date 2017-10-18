@@ -66,7 +66,7 @@ pos_inicial_pe = [0., 0., 14.]
 
 #COMUNICACAO +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ser = serial.Serial('/dev/ttyUSB0', 115200)
-#ser_uno = serial.Serial('/dev/ttyACM0', 115200)
+ser_uno = serial.Serial('/dev/ttyACM0', 115200)
 
 #FUNCOES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -306,15 +306,20 @@ while 1:
 	#ser_uno.write('#')
 	#qua = [mapeia(float(ord(c)),255.,360.) for c in ser_uno.readline()]
 	#if(t_inercial*1000 > 20):
-	''' qua = [float(ord(c))-90. for c in ser_uno.readline()]
-	if len(qua) == 4:
+	qua = [float(ord(c))-90. for c in ser_uno.readline()]
+	if len(qua) == 16:
 		#t_inercial = 0
-		incli[0] = 90. + qua[0]
-		incli[1] = 90. + qua[1]
+		flag = qua[9]
+		if flag:
+			incli[2] = qua[10] * 2
+		else:
+			incli[2] = qua[10]
+		incli[1] =  qua[11]
+		incli[0] =  qua[12] 
 		iner = np.array(np.rint(incli), dtype=np.uint8)
 		data_pelv[state][3] = iner[1]
 		data_pelv[state][4] = iner[0]
-		print data_pelv[state][3], " ", data_pelv[state][4]
+		print incli
 	'''
 
 	#STM (comunicacao) - simoes
