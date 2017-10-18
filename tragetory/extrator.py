@@ -305,7 +305,7 @@ while 1:
 	#t_inercial = 0
 	#ser_uno.write('#')
 	#qua = [mapeia(float(ord(c)),255.,360.) for c in ser_uno.readline()]
-	#if(t_inercial*1000 > 20):
+	#if(t_inercial*1000 > 20):	
 	send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 	ser_uno.write(''.join(str(chr(e)) for e in send_test))	
 	qua = [float(ord(c))-90. for c in ser_uno.readline()]
@@ -323,7 +323,7 @@ while 1:
 		data_pelv[state][4] = iner[0]
 		print incli
 	
-
+	continue
 	#STM (comunicacao) - simoes
 	'''if s == 0xFE:
 		s = spi.readbytes(8)
