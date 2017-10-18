@@ -294,8 +294,8 @@ while 1:
 
 	#fps calculator
 	if t_fps > 1:
-		os.system("clear")
-		print ("fps:", fps)
+		#os.system("clear")
+		#print ("fps:", fps)
 		t_fps = 0
 		fps = 0
 	fps += 1
