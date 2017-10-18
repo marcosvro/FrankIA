@@ -238,7 +238,7 @@ t_inercial = 0.
 state = 0
 fps = 0
 perna = 1
-incli = [128., 128.]
+incli = [128., 128., 128.]
 
 for i in range(nEstados):
 	#data_pelv[i][0] = (data_pelv[i][0]-90)*-1 + 90
