@@ -309,7 +309,7 @@ while 1:
 	send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 	ser_uno.write(''.join(str(chr(e)) for e in send_test))
 	print "enviei"	
-	qua = [float(ord(c))-90. for c in ser_uno.readline()]
+	qua = [float(ord(c))-90. for c in ser_uno.read(16)]
 	print "recebi"	
 	print qua
 	if len(qua) == 16:
