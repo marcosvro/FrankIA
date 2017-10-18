@@ -307,16 +307,13 @@ while 1:
 	#qua = [mapeia(float(ord(c)),255.,360.) for c in ser_uno.readline()]
 	#if(t_inercial*1000 > 20):
 	send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
-	ser_uno.write(''.join(str(chr(e)) for e in send_test))
-	print "enviei"	
-	qua = [float(ord(c))-90. for c in ser_uno.read(16)]
-	print "recebi"	
-	print qua
-	if len(qua) == 16:
+	ser_uno.write(''.join(str(chr(e)) for e in send_test))	
+	qua = [float(ord(c))-90. for c in ser_uno.readline()]
+	if len(qua) == 14:
 		#t_inercial = 0
 		flag = qua[9]
 		if flag:
-			incli[2] = qua[10] * 2
+			incli[2] = qua[10] + 180
 		else:
 			incli[2] = qua[10]
 		incli[1] =  qua[11]
