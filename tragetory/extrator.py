@@ -306,7 +306,7 @@ while 1:
 	#ser_uno.write('#')
 	#qua = [mapeia(float(ord(c)),255.,360.) for c in ser_uno.readline()]
 	#if(t_inercial*1000 > 20):	
-	if(t_inercial < 0.1):
+	if(t_inercial < 1):
 		continue
 	else:
 		t_inercial = 0
