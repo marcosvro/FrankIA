@@ -311,13 +311,13 @@ while 1:
 	qua = [float(ord(c))-90. for c in ser_uno.readline()]
 	if len(qua) == 14:
 		#t_inercial = 0
-		flag = qua[9]
+		flag = qua[8]
 		if flag:
-			incli[2] = qua[10] + 180
+			incli[2] = qua[9] + 180
 		else:
-			incli[2] = qua[10]
-		incli[1] =  qua[11]
-		incli[0] =  qua[12] 
+			incli[2] = qua[9]
+		incli[1] =  qua[10]
+		incli[0] =  qua[11] 
 		iner = np.array(np.rint(incli), dtype=np.uint8)
 		data_pelv[state][3] = iner[1]
 		data_pelv[state][4] = iner[0]
