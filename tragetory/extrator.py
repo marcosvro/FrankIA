@@ -306,7 +306,9 @@ while 1:
 	#ser_uno.write('#')
 	#qua = [mapeia(float(ord(c)),255.,360.) for c in ser_uno.readline()]
 	#if(t_inercial*1000 > 20):
+	print "ok"
 	qua = [float(ord(c))-90. for c in ser_uno.readline()]
+	print "consegui ler"	
 	if len(qua) == 16:
 		#t_inercial = 0
 		flag = qua[9]
