@@ -309,6 +309,7 @@ while 1:
 	send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 	ser_uno.write(''.join(str(chr(e)) for e in send_test))	
 	qua = [float(ord(c))-90. for c in ser_uno.readline()]
+	print qua
 	if len(qua) == 14:
 		#t_inercial = 0
 		flag = qua[8]
