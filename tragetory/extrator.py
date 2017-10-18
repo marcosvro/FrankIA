@@ -320,7 +320,7 @@ while 1:
 		data_pelv[state][3] = iner[1]
 		data_pelv[state][4] = iner[0]
 		print incli
-	'''
+	
 
 	#STM (comunicacao) - simoes
 	'''if s == 0xFE:
