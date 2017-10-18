@@ -66,7 +66,7 @@ pos_inicial_pe = [0., 0., 14.]
 
 #COMUNICACAO +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ser = serial.Serial('/dev/ttyUSB0', 115200)
-ser_uno = serial.Serial('/dev/ttyUSB1', 115200, timeout=1)
+ser_uno = serial.Serial('/dev/ttyUSB1', 115200, timeout=0.1)
 
 #FUNCOES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -306,10 +306,6 @@ while 1:
 	#ser_uno.write('#')
 	#qua = [mapeia(float(ord(c)),255.,360.) for c in ser_uno.readline()]
 	#if(t_inercial*1000 > 20):	
-	if(t_inercial < 1):
-		continue
-	else:
-		t_inercial = 0
 	send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 	ser_uno.write(''.join(str(chr(e)) for e in send_test))	
 	qua = [float(ord(c))-90. for c in ser_uno.readline()]
