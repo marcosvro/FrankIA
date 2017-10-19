@@ -1,13 +1,11 @@
 import numpy as np
 import cv2
-#from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 
 
-cap = cv2.VideoCapture(0)
-#cap.get(CV_CAP_PROP_FRAME_WIDTH, 640);
-#cap.get(CV_CAP_PROP_FRAME_HEIGHT, 480);
+cap = cv2.VideoCapture(1)
 
-while 1:
+while cap.isOpened():
 	# Capture frame-by-frame
 	ret, img = cap.read()
 	if not ret:
@@ -18,34 +16,69 @@ while 1:
 	# noise removal
 	kernel = np.ones((3,3),np.uint8)
 	opening = cv2.morphologyEx(thresh,cv2.MORPH_OPEN,kernel, iterations = 2)
+
 	# sure background area
 	sure_bg = cv2.dilate(opening,kernel,iterations=3)
-	# Finding sure foreground area
-	dist_transform = cv2.distanceTransform(opening,cv2.DIST_L2,5)
-	ret, sure_fg = cv2.threshold(dist_transform,0.7*dist_transform.max(),255,0)
-	# Finding unknown region
-	sure_fg = np.uint8(sure_fg)
-	unknown = cv2.subtract(sure_bg,sure_fg)
+	#cv2.imshow('path',sure_bg)
+	cv2.imshow('original', img)
 
-	# Marker labelling
-	ret, markers = cv2.connectedComponents(sure_fg)
-	# Add one to all labels so that sure background is not 0, but 1
-	markers = markers+1
-	# Now, mark the region of unknown with zero
-	markers[unknown==255] = 0
+	#process
+	width = sure_bg.shape[1]
+	height = sure_bg.shape[0]
+	center_x = int(width/2)
+	center_y = int(height/2)
+	#print (sure_bg[center_y, center_x])
+	
+	indice_better = 0
+	dist_better = 0
+	for i in range(center_x, width, 1):
+		if sure_bg[height-1, i]:
+			break
 
-	markers = cv2.watershed(img,markers)
-	img[markers == -1] = [255,0,0]
+		dist_aux = 0
+		for j in range(height-1, 0, -1):
+			if sure_bg[j, i]:
+				break
+			else:
+				dist_aux = height-1 - j
+		if dist_aux > dist_better:
+			dist_better = dist_aux
+			indice_better = i
+	
+	for i in range(center_x, 0, -1):
+		if sure_bg[height-1, i]:
+			break
 
-	# Display the resulting frame
-	#cv2.imshow('frame',img)
+		dist_aux = 0
+		for j in range(height-1, 0, -1):
+			if sure_bg[j, i]:
+				break
+			else:
+				dist_aux = height-1 - j
+		if dist_aux > dist_better:
+			dist_better = dist_aux
+			indice_better = i
+	result = cv2.cvtColor(sure_bg,cv2.COLOR_GRAY2BGR)
+	pad_vertical = 5
+	if indice_better > center_x:
+		result[center_y-pad_vertical:center_y+pad_vertical, center_x:indice_better] = (0, 0, 255)
+	else:
+		result[center_y-pad_vertical:center_y+pad_vertical, indice_better:center_x] = (0, 0, 255)
+	
+	cv2.imshow('result',result)
+	if dist_better:
+		print ("indice: ", indice_better)
+	else:
+		print ("Cego!!")
+	
+
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
-	print ("OK!!")
+	#print ("OK!!")
 
 # When everything done, release the capture
 cap.release()
-#cv2.destroyAllWindows()
+cv2.destroyAllWindows()
 
 
 
