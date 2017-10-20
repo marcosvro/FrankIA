@@ -1,7 +1,12 @@
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
+import socket
 
+host = '127.0.0.1'     # Endereco IP do Servidor
+port = 666             # Porta que o Servidor esta
+udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+dest = (host, port)
 
 cap = cv2.VideoCapture(1)
 
@@ -35,26 +40,24 @@ while cap.isOpened():
 		if sure_bg[height-1, i]:
 			break
 
-		dist_aux = 0
-		for j in range(height-1, 0, -1):
-			if sure_bg[j, i]:
-				break
-			else:
-				dist_aux = height-1 - j
+		try:
+			dist_aux = height-1 - sure_bg[:height, i].nonzero()[0][-1]
+		except IndexError:
+			break
+
 		if dist_aux > dist_better:
 			dist_better = dist_aux
 			indice_better = i
-	
+
 	for i in range(center_x, 0, -1):
 		if sure_bg[height-1, i]:
 			break
 
-		dist_aux = 0
-		for j in range(height-1, 0, -1):
-			if sure_bg[j, i]:
-				break
-			else:
-				dist_aux = height-1 - j
+		try:
+			dist_aux = height-1 - sure_bg[:height, i].nonzero()[0][-1]
+		except IndexError:
+			break
+
 		if dist_aux > dist_better:
 			dist_better = dist_aux
 			indice_better = i
@@ -68,10 +71,10 @@ while cap.isOpened():
 	cv2.imshow('result',result)
 	if dist_better:
 		print ("indice: ", indice_better)
+		udp.sendto (str(indice_better).encode('utf-8'), dest)
 	else:
 		print ("Cego!!")
 	
-
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
 	#print ("OK!!")
@@ -79,6 +82,6 @@ while cap.isOpened():
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
-
+udp.close()
 
 

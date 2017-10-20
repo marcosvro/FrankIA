@@ -7,7 +7,7 @@ import os
 import spidev
 import ikpy as ik
 import serial
-
+import socket
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 deslocamentoZpes = 2.
@@ -67,6 +67,14 @@ pos_inicial_pe = [0., 0., 14.]
 #COMUNICACAO +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ser = serial.Serial('/dev/ttyUSB0', 115200)
 #ser_uno = serial.Serial('/dev/ttyUSB1', 115200, timeout=1)
+
+
+HOST = ''              # Endereco IP do Servidor
+PORT = 666             # Porta que o Servidor esta
+udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+orig = (HOST, PORT)
+udp.bind(orig)
+
 
 #FUNCOES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -270,6 +278,10 @@ while 1:
 	
 
 while 1:
+	msg, cliente = udp.recvfrom(20)
+	print cliente, int(msg)
+
+while 1:
 	#sending data
 	########################################	incluir iner no vetor de rotacao	##############################################
 	to_send = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
@@ -359,4 +371,5 @@ while 1:
 
 #END +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 f.close()
+udp.close()
 
