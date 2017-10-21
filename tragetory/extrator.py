@@ -13,7 +13,7 @@ import socket
 deslocamentoZpes = 2.
 deslocamentoXpes = 7.
 deslocamentoYpelves = 4.
-periodo = 0.125
+periodo = 0.2
 nEstados = 125
 dMovx = deslocamentoXpes/nEstados
 frameRate = periodo/nEstados
