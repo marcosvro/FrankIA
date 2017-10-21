@@ -8,7 +8,7 @@ port = 666             # Porta que o Servidor esta
 udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 dest = (host, port)
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 while cap.isOpened():
 	# Capture frame-by-frame
