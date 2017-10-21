@@ -357,7 +357,7 @@ while 1:
 		else:
 			send_test = np.array([255]+data_foot[state].tolist()+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			ser.write(''.join(str(chr(e)) for e in send_test))
-		print state, " --- ", send_test[2]-90
+		print state, " --- ", send_test[0]-90
 	#print state," --- ",send_test
 	
 	'''send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
