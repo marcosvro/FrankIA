@@ -63,18 +63,19 @@ while cap.isOpened():
 			indice_better = i
 	result = cv2.cvtColor(sure_bg,cv2.COLOR_GRAY2BGR)
 	pad_vertical = 5
-	if indice_better > center_x:
-		result[center_y-pad_vertical:center_y+pad_vertical, center_x:indice_better] = (0, 0, 255)
-	else:
-		result[center_y-pad_vertical:center_y+pad_vertical, indice_better:center_x] = (0, 0, 255)
 	
-	cv2.imshow('result',result)
+		
 	if dist_better:
 		print ("indice: ", indice_better)
 		udp.sendto (str(indice_better).encode('utf-8'), dest)
+		if indice_better > center_x:
+			result[center_y-pad_vertical:center_y+pad_vertical, center_x:indice_better] = (0, 0, 255)
+		else:
+			result[center_y-pad_vertical:center_y+pad_vertical, indice_better:center_x] = (0, 0, 255)
 	else:
 		print ("Cego!!")
 	
+	cv2.imshow('result',result)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
 	#print ("OK!!")
