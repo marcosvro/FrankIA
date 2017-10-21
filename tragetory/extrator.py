@@ -356,7 +356,7 @@ while 1:
 		send_test = np.array([255]+data_foot[state].tolist()+data_pelv[state].tolist()+[254], dtype=np.uint8)
 		ser.write(''.join(str(chr(e)) for e in send_test))
 	#print state," --- ",send_test
-	print state, " --- ", send_test[2]
+	print state, " --- ", send_test[2]-90
 	'''send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
         send_test[1] = 60*math.sin(t_fps*2.*3.14/3) + 90
 	output = ''.join(str(chr(e)) for e in send_test)
