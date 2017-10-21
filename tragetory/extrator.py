@@ -322,6 +322,7 @@ while 1:
 	#ser_uno.write(''.join(str(chr(e)) for e in send_test))	
 	#qua = [float(ord(c))-90. for c in ser_uno.readline()]
 	qua = []
+	"""
 	if len(qua) == 14:
 		#t_inercial = 0
 		flag = qua[8]
@@ -335,7 +336,7 @@ while 1:
 		data_pelv[state][3] = iner[1]
 		data_pelv[state][4] = iner[0]
 		print incli
-	
+	"""
 	#STM (comunicacao) - simoes
 	'''if s == 0xFE:
 		s = spi.readbytes(8)
