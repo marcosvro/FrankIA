@@ -1,40 +1,23 @@
 import numpy as np
-import threading
 #import cv2
 import time
 import math
 import os
-import spidev
-import ikpy as ik
 import serial
 import socket
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-deslocamentoZpes = 2.
-deslocamentoXpes = 7.
-deslocamentoYpelves = 4.
 periodo = 3
 nEstados = 125
-dMovx = deslocamentoXpes/nEstados
 frameRate = float(float(periodo)/float(nEstados))
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
 data_pelv = np.zeros((nEstados,8), dtype=np.uint8)
+angulo_vira = 5
 
-
-#perna - quadril = target
-link0 = ik.link.URDFLink("calc_lateral", [0,0,1.9], [0,0,0], [1,0,0], use_symbolic_matrix=True, bounds=(-30,30))
-link1 = ik.link.URDFLink("calc_frontal", [0,0,0.7], [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds=(-60,60))
-link2 = ik.link.URDFLink("joelho", [0,0,8.2] , [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds=(-60,60))
-link3 = ik.link.URDFLink("quadril", [0,0,6.4], [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds=(-80,80))
-link4 = ik.link.URDFLink("pelves", [0, 1.7, 4], [0, 0, 0], [1, 0, 0], use_symbolic_matrix=True, bounds=(-50,50))
-
-#perna - pe = target
-link5 = ik.link.URDFLink("pelves", [0,0,0], [0,0,0], [1,0,0], use_symbolic_matrix=True, bounds = (-50, 50))
-link6 = ik.link.URDFLink("quadril", [0,-1.7,-4], [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds = (-80, 80))
-link7 = ik.link.URDFLink("joelho", [0,0,-6.4], [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds = (-60, 60))
-link8 = ik.link.URDFLink("calc_frontal", [0,0,-8.2], [0,0,0], [0,1,0], use_symbolic_matrix=True, bounds = (-60, 60))
-link9 = ik.link.URDFLink("calc_lateral", [0,0,-0.7], [0,0,0], [1,0,0], use_symbolic_matrix=True, bounds = (-30, 30))
-link10 = ik.link.URDFLink("pe", [0,0,-0.7], [0,0,0], [0,0,0], use_symbolic_matrix=True)
+bussola = 0
+meia_tela_pixel = 80.
+meia_tela_angulo = 25.
+faixa_erro_rotacao = 5
 
 
 #Parametros de DH
@@ -46,22 +29,6 @@ mat2 = np.array(frank_esq, dtype=float)
 
 #AB_6
 ab6 = np.array([[0.,0.,1.,0.],[0.,1.,0.,-4.5],[-1.,0.,0.,-22.99],[0.,0.,0.,1.]], dtype=float)
-
-
-
-#chains
-foot2pelv = ik.chain.Chain([link0, link1, link2, link3, link4], [True, True, True, False, False])
-pelv2foot = ik.chain.Chain([link5, link6, link7, link8, link9, link10], [True, True, True, True, False, False])
-
-
-#start joint positions
-jointsf2p = np.deg2rad([0, 13.24660153,-30.31297739,17.0563224,0])
-jointsp2f = np.deg2rad([0,-17.0563224,30.31297739,-13.24660153,0,0])
-
-
-#start target position
-pos_inicial_pelves = [0., 0., 14.]
-pos_inicial_pe = [0., 0., 14.]
 
 
 #COMUNICACAO +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -216,10 +183,6 @@ def Quaternion_toEulerianAngle(x, y, z, w):
 	return X, Y, Z
 
 
-def mapeia(x, y, z):
-	a = (x*y)/z
-	return a
-
 #SETUP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 iner = np.array([0., 0., 0.], dtype=np.uint8)
 
@@ -236,6 +199,20 @@ except IOError:
 	exit()
 
 
+vira_pelv = np.array([0]*nEstados, dtype=np.int8)
+vira_foot = np.array([0]*nEstados, dtype=np.int8)
+for indice in range(nEstados):
+	vira_pelv[i] = angulo_vira + angulo_vira*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
+	vira_foot[i] = angulo_vira - angulo_vira*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
+
+qua = []
+while len(qua) != 6:
+	qua = [float(ord(c)) for c in ser_uno.readline()]
+if qua[0]:
+	bussola = qua[1] + 180
+else:
+	bussola = qua[1]
+
 
 #LOOP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 start = time.time()
@@ -247,6 +224,10 @@ state = 0
 fps = 0
 perna = 1
 incli = [128., 128., 128.]
+rot_desvio = 0
+rot_real = 0
+rota_esq = 0
+rota_dir = 0
 
 for i in range(nEstados):
 	#data_pelv[i][0] = (data_pelv[i][0]-90)*-1 + 90
@@ -275,12 +256,7 @@ while 1:
 	#fowa_cinematic(np.eye(4), mat1,6)
 	T = back_cinematic(np.eye(4),mat2,0)
 	invKinematic(T)
-	
-"""
-while 1:
-	msg, cliente = udp.recvfrom(20)
-	print cliente, int(msg)
-"""
+
 while 1:
 	#sending data
 	########################################	incluir iner no vetor de rotacao	##############################################
@@ -301,7 +277,23 @@ while 1:
 	if(t_state >= frameRate):
 		t_state = 0
 		if state+1 == nEstados:
-			perna = (perna+1)%2
+			perna = (perna+1)%2			
+			if math.fabs(rot_desvio) > 5:
+				if rot_desvio < 0:
+					if perna:
+						rota_esq = -1
+						rota_dir *= 2
+					else:
+						rota_dir = -1
+						rota_esq *= 2
+				else:
+					if perna:
+						rota_esq = 1
+						rota_dir *= 2
+					else:
+						rota_dir = 1
+						rota_esq *= 2
+				
 		state = (state+1)%nEstados
 
 
@@ -321,15 +313,16 @@ while 1:
 	#if(t_inercial*1000 > 20):	
 	send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 	#ser_uno.write(''.join(str(chr(e)) for e in send_test))	
-	qua = [float(ord(c))-90. for c in ser_uno.readline()]
+	qua = [float(ord(c))-90 for c in ser_uno.readline()]
 
 	if len(qua) == 6:
 		#t_inercial = 0
 		flag = qua[0]+90
 		if flag:
-			incli[2] = qua[1] + 180
+			incli[2] = qua[1] + 90
 		else:
-			incli[2] = qua[1]
+			incli[2] = qua[1] - 90
+		rot_real = incli[2]
 		incli[0] =  qua[2]
 		incli[1] =  qua[3] 
 		iner = np.array(np.rint(incli), dtype=np.uint8)
@@ -341,15 +334,54 @@ while 1:
 
 	#MEGA (comunicacao) marcos -teste
 	if perna:
+		if rota_esq == 1:
+			data_pelv[state][5] = 90 + vira_pelv[state]
+		else if rota_esq == -1:
+			data_pelv[state][5] = 90 + vira_pelv[state]*-1
+		else:
+			data_pelv[state][5] = 90
+
+		if rota_dir = 2:
+			data_foot[state][5] = 90 + vira_foot[state]
+		else if rota_dir = -2:
+			data_foot[state][5] = 90 + vira_foot[state]*-1		
+		else:
+			data_foot[state][5] = 90
+
 		send_test = np.array([255]+data_pelv[state].tolist()+data_foot[state].tolist()+[254], dtype=np.uint8)
 		ser.write(''.join(str(chr(e)) for e in send_test))
 	else:
+		if rota_dir == 1:
+			data_pelv[state][5] = 90 + vira_pelv[state]
+		else if rota_dir == -1:
+			data_pelv[state][5] = 90 + vira_pelv[state]*-1
+		else:
+			data_pelv[state][5] = 90
+
+		if rota_esq = 2:
+			data_foot[state][5] = 90 + vira_foot[state]
+		else if rota_esq = -2:
+			data_foot[state][5] = 90 + vira_foot[state]*-1		
+		else:
+			data_foot[state][5] = 90
+
 		send_test = np.array([255]+data_foot[state].tolist()+data_pelv[state].tolist()+[254], dtype=np.uint8)
 		ser.write(''.join(str(chr(e)) for e in send_test))
+
 	#print state, " --- ", send_test
+
+	#CAMERA
+	msg, cliente = udp.recvfrom(20)
+	if len(msg) and int(msg) != 0:
+		rot_desvio = float(int(msg))*meia_tela_angulo/meia_tela_pixel
+	else:
+		rot_desvio = bussola - rot_real
 	
+	
+		
+		
 
 #END +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 f.close()
-#udp.close()
+udp.close()
 
