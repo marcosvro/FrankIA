@@ -65,7 +65,7 @@ pos_inicial_pe = [0., 0., 14.]
 
 
 #COMUNICACAO +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-ser = serial.Serial('/dev/ttyUSB0', 230400)
+ser = serial.Serial('/dev/ttyUSB0', 230400, timeout=0.004)
 #ser_uno = serial.Serial('/dev/ttyUSB1', 115200, timeout=1)
 
 """
@@ -349,12 +349,14 @@ while 1:
 	'''
 
 	#MEGA (comunicacao) marcos -teste
-	if perna:
-		send_test = np.array([255]+data_pelv[state].tolist()+data_foot[state].tolist()+[254], dtype=np.uint8)
-		ser.write(''.join(str(chr(e)) for e in send_test))
-	else:
-		send_test = np.array([255]+data_foot[state].tolist()+data_pelv[state].tolist()+[254], dtype=np.uint8)
-		ser.write(''.join(str(chr(e)) for e in send_test))
+	qua = [float(ord(c))-90. for c in ser_uno.readline()][0]
+	if qua is 97:
+		if perna:
+			send_test = np.array([255]+data_pelv[state].tolist()+data_foot[state].tolist()+[254], dtype=np.uint8)
+			ser.write(''.join(str(chr(e)) for e in send_test))
+		else:
+			send_test = np.array([255]+data_foot[state].tolist()+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			ser.write(''.join(str(chr(e)) for e in send_test))
 	#print state," --- ",send_test
 	print state, " --- ", send_test[2]-90
 	'''send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
