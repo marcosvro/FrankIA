@@ -65,7 +65,7 @@ pos_inicial_pe = [0., 0., 14.]
 
 
 #COMUNICACAO +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-ser = serial.Serial('/dev/ttyUSB0', 230400, timeout=1)
+ser = serial.Serial('/dev/ttyUSB0', 230400, timeout=0.004)
 #ser_uno = serial.Serial('/dev/ttyUSB1', 115200, timeout=1)
 
 """
