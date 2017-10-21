@@ -347,8 +347,8 @@ while 1:
 			print "RECEBEU: ",s
 	spi.writebytes(to_send)
 	'''
-	data_pelv[state][2] = int(90*math.sin(t*2.*np.pi/1.) + 90)
-	data_foot[state][2] = int(90*math.sin(t*2.*np.pi/1.) + 90)
+	data_pelv[state][2] = int(90*math.sin(t*2.*np.pi/3.) + 90)
+	data_foot[state][2] = int(90*math.sin(t*2.*np.pi/3.) + 90)
 	#MEGA (comunicacao) marcos -teste
 	qua = [float(ord(c)) for c in ser.readline()]
 	if len(qua) == 3 and qua[0] == 97:
