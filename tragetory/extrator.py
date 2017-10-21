@@ -349,7 +349,7 @@ while 1:
 	'''
 
 	#MEGA (comunicacao) marcos -teste
-	qua = [float(ord(c))-90. for c in ser_uno.readline()][0]
+	qua = [float(ord(c))-90. for c in ser.readline()][0]
 	if qua is 97:
 		if perna:
 			send_test = np.array([255]+data_pelv[state].tolist()+data_foot[state].tolist()+[254], dtype=np.uint8)
