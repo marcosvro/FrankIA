@@ -16,7 +16,7 @@ deslocamentoYpelves = 4.
 periodo = 3
 nEstados = 125
 dMovx = deslocamentoXpes/nEstados
-frameRate = periodo/nEstados
+frameRate = float(float(periodo)/float(nEstados))
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
 data_pelv = np.zeros((nEstados,8), dtype=np.uint8)
 
@@ -355,7 +355,7 @@ while 1:
 	else:
 		send_test = np.array([255]+data_foot[state].tolist()+data_pelv[state].tolist()+[254], dtype=np.uint8)
 		ser.write(''.join(str(chr(e)) for e in send_test))
-	print state," --- ",send_test
+	#print state," --- ",send_test
 
 	'''send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
         send_test[1] = 60*math.sin(t_fps*2.*3.14/3) + 90
