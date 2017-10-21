@@ -350,6 +350,7 @@ while 1:
 
 	#MEGA (comunicacao) marcos -teste
 	qua = [float(ord(c))-90. for c in ser.readline()]
+	print qua
 	if len(qua) == 3 and qua[0] == 97:
 		if perna:
 			send_test = np.array([255]+data_pelv[state].tolist()+data_foot[state].tolist()+[254], dtype=np.uint8)
