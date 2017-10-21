@@ -347,7 +347,8 @@ while 1:
 			print "RECEBEU: ",s
 	spi.writebytes(to_send)
 	'''
-
+	data_pelv[2] = int(90*math.sin(t*2.*np.pi/1.) + 90)
+	data_pelv[2] = int(90*math.sin(t*2.*np.pi/1.) + 90)
 	#MEGA (comunicacao) marcos -teste
 	qua = [float(ord(c)) for c in ser.readline()]
 	if len(qua) == 3 and qua[0] == 97:
@@ -357,7 +358,7 @@ while 1:
 		else:
 			send_test = np.array([255]+data_foot[state].tolist()+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			ser.write(''.join(str(chr(e)) for e in send_test))
-		print state, " --- ", send_test[1]-90
+		print state, " --- ", send_test[2]-90
 	#print state," --- ",send_test
 	
 	'''send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
