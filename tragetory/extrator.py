@@ -68,13 +68,13 @@ pos_inicial_pe = [0., 0., 14.]
 ser = serial.Serial('/dev/ttyUSB0', 230400, timeout=0.004)
 #ser_uno = serial.Serial('/dev/ttyUSB1', 115200, timeout=1)
 
-"""
+
 HOST = ''              # Endereco IP do Servidor
 PORT = 666             # Porta que o Servidor esta
 udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 orig = (HOST, PORT)
 udp.bind(orig)
-"""
+
 
 #FUNCOES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
