@@ -66,7 +66,7 @@ pos_inicial_pe = [0., 0., 14.]
 
 #COMUNICACAO +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ser = serial.Serial('/dev/ttyUSB0', 230400, timeout=0.004)
-#ser_uno = serial.Serial('/dev/ttyUSB1', 115200, timeout=1)
+ser_uno = serial.Serial('/dev/ttyUSB1', 115200, timeout=1)
 
 
 HOST = ''              # Endereco IP do Servidor
@@ -321,23 +321,21 @@ while 1:
 	#if(t_inercial*1000 > 20):	
 	send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 	#ser_uno.write(''.join(str(chr(e)) for e in send_test))	
-	#qua = [float(ord(c))-90. for c in ser_uno.readline()]
-	qua = []
-	"""
-	if len(qua) == 14:
+	qua = [float(ord(c))-90. for c in ser_uno.readline()]
+	
+	if len(qua) == 6:
 		#t_inercial = 0
-		flag = qua[8]
+		flag = qua[0]+90
 		if flag:
-			incli[2] = qua[9] + 180
+			incli[2] = qua[1] + 180
 		else:
-			incli[2] = qua[9]
-		incli[1] =  qua[10]
-		incli[0] =  qua[11] 
+			incli[2] = qua[1]
+		incli[0] =  qua[2]
+		incli[1] =  qua[3] 
 		iner = np.array(np.rint(incli), dtype=np.uint8)
-		data_pelv[state][3] = iner[1]
-		data_pelv[state][4] = iner[0]
+		data_pelv[state][3] = iner[0]
+		data_pelv[state][4] = iner[1]
 		print incli
-	"""
 	
 	#MEGA (comunicacao) marcos -teste
 	if perna:
@@ -346,7 +344,7 @@ while 1:
 	else:
 		send_test = np.array([255]+data_foot[state].tolist()+data_pelv[state].tolist()+[254], dtype=np.uint8)
 		ser.write(''.join(str(chr(e)) for e in send_test))
-	print state, " --- ", send_test
+	#print state, " --- ", send_test
 	
 
 #END +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
