@@ -295,7 +295,8 @@ while 1:
 	t_fps += dTime
 	t_state += dTime
 	t_inercial += dTime
-
+	print t_state	
+	
 	#change state
 	if(t_state >= frameRate):
 		t_state = 0
