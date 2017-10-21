@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 import socket
 
 host = '127.0.0.1'     # Endereco IP do Servidor
@@ -25,7 +25,7 @@ while cap.isOpened():
 	# sure background area
 	sure_bg = cv2.dilate(opening,kernel,iterations=3)
 	#cv2.imshow('path',sure_bg)
-	cv2.imshow('original', img)
+	#cv2.imshow('original', img)
 
 	#process
 	width = sure_bg.shape[1]
@@ -61,28 +61,29 @@ while cap.isOpened():
 		if dist_aux > dist_better:
 			dist_better = dist_aux
 			indice_better = i
-	result = cv2.cvtColor(sure_bg,cv2.COLOR_GRAY2BGR)
+	#result = cv2.cvtColor(sure_bg,cv2.COLOR_GRAY2BGR)
 	pad_vertical = 5
 	
 		
 	if dist_better:
 		print ("indice: ", indice_better)
 		udp.sendto (str(indice_better).encode('utf-8'), dest)
-		if indice_better > center_x:
+		"""if indice_better > center_x:
 			result[center_y-pad_vertical:center_y+pad_vertical, center_x:indice_better] = (0, 0, 255)
 		else:
 			result[center_y-pad_vertical:center_y+pad_vertical, indice_better:center_x] = (0, 0, 255)
+		"""
 	else:
 		print ("Cego!!")
 	
-	cv2.imshow('result',result)
+	#cv2.imshow('result',result)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
 	#print ("OK!!")
 
 # When everything done, release the capture
 cap.release()
-cv2.destroyAllWindows()
+#cv2.destroyAllWindows()
 udp.close()
 
 
