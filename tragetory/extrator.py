@@ -322,7 +322,7 @@ while 1:
 	send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 	#ser_uno.write(''.join(str(chr(e)) for e in send_test))	
 	qua = [float(ord(c))-90. for c in ser_uno.readline()]
-	fps += 1
+
 	if len(qua) == 6:
 		#t_inercial = 0
 		flag = qua[0]+90
@@ -335,7 +335,7 @@ while 1:
 		iner = np.array(np.rint(incli), dtype=np.uint8)
 		data_pelv[state][3] = iner[0]
 		data_pelv[state][4] = iner[1]
-		
+		fps += 1
 		#print incli
 	
 	#MEGA (comunicacao) marcos -teste
