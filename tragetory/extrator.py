@@ -70,7 +70,7 @@ ser = serial.Serial('/dev/ttyUSB0', 230400, timeout=0.004)
 
 
 HOST = ''              # Endereco IP do Servidor
-PORT = 666             # Porta que o Servidor esta
+PORT = 6666             # Porta que o Servidor esta
 udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 orig = (HOST, PORT)
 udp.bind(orig)
