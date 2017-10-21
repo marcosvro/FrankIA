@@ -307,11 +307,11 @@ while 1:
 
 	#fps calculator
 	if t_fps > 1:
-		#os.system("clear")
-		#print ("fps:", fps)
+		os.system("clear")
+		print ("fps:", fps)
 		t_fps = 0
 		fps = 0
-	fps += 1
+	
 	
 
 	#NANO (comunicacao) - luiz
@@ -335,7 +335,8 @@ while 1:
 		iner = np.array(np.rint(incli), dtype=np.uint8)
 		data_pelv[state][3] = iner[0]
 		data_pelv[state][4] = iner[1]
-		print incli
+		fps += 1
+		#print incli
 	
 	#MEGA (comunicacao) marcos -teste
 	if perna:
