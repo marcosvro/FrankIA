@@ -68,13 +68,13 @@ pos_inicial_pe = [0., 0., 14.]
 ser = serial.Serial('/dev/ttyUSB0', 115200)
 #ser_uno = serial.Serial('/dev/ttyUSB1', 115200, timeout=1)
 
-
+"""
 HOST = ''              # Endereco IP do Servidor
 PORT = 666             # Porta que o Servidor esta
 udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 orig = (HOST, PORT)
 udp.bind(orig)
-
+"""
 
 #FUNCOES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -276,11 +276,11 @@ while 1:
 	T = back_cinematic(np.eye(4),mat2,0)
 	invKinematic(T)
 	
-
+"""
 while 1:
 	msg, cliente = udp.recvfrom(20)
 	print cliente, int(msg)
-
+"""
 while 1:
 	#sending data
 	########################################	incluir iner no vetor de rotacao	##############################################
