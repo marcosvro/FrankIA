@@ -335,9 +335,10 @@ while 1:
 		iner = np.array(np.rint(incli), dtype=np.uint8)
 		data_pelv[state][3] = iner[0]
 		data_pelv[state][4] = iner[1]
-		fps += 1
 		#print incli
-	
+
+	fps += 1	
+
 	#MEGA (comunicacao) marcos -teste
 	if perna:
 		send_test = np.array([255]+data_pelv[state].tolist()+data_foot[state].tolist()+[254], dtype=np.uint8)
