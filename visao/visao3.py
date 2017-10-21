@@ -76,10 +76,12 @@ while cap.isOpened():
 	else:
 		print ("Cego!!")
 	
-	#cv2.imshow('result',result)
+	"""
+	cv2.imshow('result',result)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
 	#print ("OK!!")
+	"""
 
 # When everything done, release the capture
 cap.release()
