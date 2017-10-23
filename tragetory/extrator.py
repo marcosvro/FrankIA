@@ -186,8 +186,8 @@ except IOError:
 vira_pelv = np.array([0]*nEstados, dtype=np.int8)
 vira_foot = np.array([0]*nEstados, dtype=np.int8)
 for indice in range(nEstados):
-	vira_pelv[i] = angulo_vira + angulo_vira*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
-	vira_foot[i] = angulo_vira - angulo_vira*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
+	vira_pelv[indice] = angulo_vira + angulo_vira*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
+	vira_foot[indice] = angulo_vira - angulo_vira*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
 
 
 #read objetive direction
@@ -198,7 +198,6 @@ if (qua[0]):
 	bussola = qua[1] + 180
 else:
 	bussola = qua[1]
-
 
 #adjust joints direction
 for i in range(nEstados):
@@ -289,15 +288,15 @@ while 1:
 
 	#FPS calculator
 	if t_fps > 1:
-		os.system("clear")
-		print ("fps:", fps)
+		#os.system("clear")
+		#print ("fps:", fps)
 		t_fps = 0
 		fps = 0
 	fps += 1
 	
 
 	#Inersial read (100hz)
-	qua = [float(ord(c))-90 for c in ser_uno.readline()]
+	qua = [float(ord(c))-90 for c in ser_uno.readline()]	
 	if len(qua) == 6:
 		flag = qua[0]+90
 		if flag:
@@ -306,9 +305,9 @@ while 1:
 			incli[2] = qua[1] - 90
 		rot_real = incli[2]
 		incli[0] =  qua[2]
-		incli[1] =  qua[3] 
+		incli[1] =  qua[3]
 		iner = np.array(np.rint(incli), dtype=np.uint8)
-
+		print (iner)
 
 	#Low level write (bound rate)
 	if perna:
