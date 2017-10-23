@@ -195,7 +195,7 @@ qua = []
 while 1:
 	buff = ser_uno.readline()
 	print (len(buff))
-	if buff is not b'':
+	if len(buff):
 		qua = [float(int(c)) for c in buff]
 		print ("karalho--------------")
 	else:
