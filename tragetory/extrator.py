@@ -193,7 +193,7 @@ for indice in range(nEstados):
 #read objetive direction
 qua = []
 while 1:
-	qua = [float(ord(c)) for c in ser_uno.readline()]
+	qua = [float(c) for c in bytearray(ser_uno.readline(), "ascii")]
 	if len(qua) != 6:
 		continue
 	else:
@@ -300,7 +300,7 @@ while 1:
 	
 
 	#Inersial read (100hz)
-	qua = [float(ord(c))-90 for c in ser_uno.readline()]	
+	qua = [float(c)-90 for c in bytearray(ser_uno.readline(), "ascii")]	
 	if len(qua) == 6:
 		flag = qua[0]+90
 		if flag:
