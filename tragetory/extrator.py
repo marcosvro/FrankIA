@@ -194,10 +194,10 @@ for indice in range(nEstados):
 qua = []
 while 1:
 	buff = ser_uno.readline()
-	if buff is None:
-		qua = []
-	else:
+	if buff:
 		qua = [float(c)-90 for c in bytearray(buff, "ascii")]
+	else:
+		qua = []
 	if len(qua) != 6:
 		continue
 	else:
