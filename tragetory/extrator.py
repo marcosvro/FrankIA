@@ -194,7 +194,7 @@ for indice in range(nEstados):
 qua = []
 while 1:
 	buff = ser_uno.readline()
-	print (buff)
+	print (len(buff))
 	if buff is not b'':
 		qua = [float(int(c)) for c in buff]
 		print ("karalho--------------")
