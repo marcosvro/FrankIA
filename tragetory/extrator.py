@@ -197,7 +197,7 @@ while 1:
 	print (buff)
 	if buff is not b'':
 		qua = [float(c) for c in bytearray(str(buff), 'ascii')]
-		#print (qua)
+		print ("karalho--------------")
 	else:
 		qua = []
 	if len(qua) != 6:
