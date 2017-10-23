@@ -193,10 +193,11 @@ for indice in range(nEstados):
 #read objetive direction
 qua = []
 while 1:
-	buff = str(ser_uno.readline())
-	if buff is not b'':
+	buff = ser_uno.readline()
+	print (buff)
+	if str(buff) is not b'':
 		qua = [float(c) for c in bytearray(buff, 'ascii')]
-		print (qua)
+		#print (qua)
 	else:
 		qua = []
 	if len(qua) != 6:
