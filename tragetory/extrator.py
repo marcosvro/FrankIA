@@ -31,7 +31,7 @@ ab6 = np.array([[0.,0.,1.,0.],[0.,1.,0.,-4.5],[-1.,0.,0.,-22.99],[0.,0.,0.,1.]],
 
 #COMUNICATION +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #serial
-ser = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
+#ser = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
 ser_uno = serial.Serial('/dev/ttyUSB0', 230400, timeout=0)
 
 #socket
@@ -341,7 +341,7 @@ while 1:
 
 		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
 		send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.uint8)
-		ser.write(''.join(str(chr(e)) for e in send_test))
+		#ser.write(''.join(str(chr(e)) for e in send_test))
 	else:
 		if rota_dir == 1:
 			data_pelv[state][5] = 90 + vira_pelv[state]
@@ -359,7 +359,7 @@ while 1:
 		
 		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
 		send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
-		ser.write(''.join(str(chr(e)) for e in send_test))
+		#ser.write(''.join(str(chr(e)) for e in send_test))
 	#print (state, " --- ", send_test)
 
 
