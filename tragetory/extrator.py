@@ -197,7 +197,7 @@ while 1:
 	if buff is None:
 		qua = []
 	else:
-		qua = [float(c)-90 for c in ,bytearray(buff, "ascii")]
+		qua = [float(c)-90 for c in bytearray(buff, "ascii")]
 	if len(qua) != 6:
 		continue
 	else:
@@ -308,7 +308,7 @@ while 1:
 	if buff is None:
 		qua = []
 	else:
-		qua = [float(c)-90 for c in ,bytearray(buff, "ascii")]	
+		qua = [float(c)-90 for c in bytearray(buff, "ascii")]	
 	if len(qua) == 6:
 		flag = qua[0]+90
 		if flag:
