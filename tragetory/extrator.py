@@ -194,7 +194,7 @@ for indice in range(nEstados):
 qua = []
 while 1:
 	buff = str(ser_uno.readline())
-	print buff
+	print (buff)
 	if buff is not "":
 		qua = [float(c) for c in bytearray(buff, "ascii")]
 	else:
