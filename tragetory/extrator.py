@@ -195,8 +195,8 @@ qua = []
 while 1:
 	buff = ser_uno.readline()
 	print (buff)
-	if str(buff) is not b'':
-		qua = [float(c) for c in bytearray(buff, 'ascii')]
+	if buff is not b'':
+		qua = [float(c) for c in bytearray(str(buff), 'ascii')]
 		#print (qua)
 	else:
 		qua = []
