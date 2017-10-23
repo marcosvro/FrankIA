@@ -193,9 +193,9 @@ for indice in range(nEstados):
 #read objetive direction
 qua = []
 while 1:
-	buff = ser_uno.readline()
+	buff = str(ser_uno.readline())
 	print buff
-	if buff:
+	if buff is not "":
 		qua = [float(c) for c in bytearray(buff, "ascii")]
 	else:
 		qua = []
