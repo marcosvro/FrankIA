@@ -196,7 +196,7 @@ while 1:
 	buff = str(ser_uno.readline())
 	print (buff)
 	if buff is not "":
-		qua = [float(c) for c in buff]
+		qua = [float(byte(c)) for c in buff]
 	else:
 		qua = []
 	if len(qua) != 6:
