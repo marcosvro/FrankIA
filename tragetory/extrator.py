@@ -193,7 +193,7 @@ for indice in range(nEstados):
 #read objetive direction
 qua = []
 while 1:
-	if len(qua) != 6
+	if len(qua) != 6:
 		continue
 	qua = [float(ord(c)) for c in ser_uno.readline()]
 	break
