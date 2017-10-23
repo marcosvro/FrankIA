@@ -1,5 +1,4 @@
 import numpy as np
-#import cv2
 import time
 import math
 import os
@@ -13,7 +12,6 @@ frameRate = float(float(periodo)/float(nEstados))
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
 data_pelv = np.zeros((nEstados,8), dtype=np.uint8)
 angulo_vira = 5
-
 bussola = 0
 meia_tela_pixel = 80.
 meia_tela_angulo = 25.
@@ -31,11 +29,12 @@ mat2 = np.array(frank_esq, dtype=float)
 ab6 = np.array([[0.,0.,1.,0.],[0.,1.,0.,-4.5],[-1.,0.,0.,-22.99],[0.,0.,0.,1.]], dtype=float)
 
 
-#COMUNICACAO +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-ser = serial.Serial('/dev/ttyUSB1', 230400)
-ser_uno = serial.Serial('/dev/ttyUSB0', 230400)
+#COMUNICATION +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#serial
+ser = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
+ser_uno = serial.Serial('/dev/ttyUSB0', 230400, timeout=0)
 
-
+#socket
 HOST = ''              # Endereco IP do Servidor
 PORT = 6666             # Porta que o Servidor esta
 udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -43,7 +42,7 @@ orig = (HOST, PORT)
 udp.bind(orig)
 
 
-#FUNCOES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#FUNCTIONS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 def fowa_cinematic(transform, MDH,N):
 	xi_1 = transform[:3, 0]
@@ -69,6 +68,7 @@ def fowa_cinematic(transform, MDH,N):
 		pk_1 = pk
 	return [xi_1, yi_1, zi_1, pk_1]
 
+
 def back_cinematic(transform, MDH,N):
 	xi = transform[:3, 0]
 	yi = transform[:3, 1]
@@ -92,6 +92,7 @@ def back_cinematic(transform, MDH,N):
 		zi = zi_1
 		pk = pk_1
 	return [xi, yi, zi, pk]
+
 
 def invKinematic(A60):
 	#falta calcular o sinal dos angulos
@@ -164,29 +165,11 @@ def invKinematic(A60):
 
 	return [o1,o2,o3,o4,o5,o6]
 
-def Quaternion_toEulerianAngle(x, y, z, w):
-	ysqr = y*y
-
-	t0 = +2.0 * (w * x + y*z)
-	t1 = +1.0 - 2.0 * (x*x + ysqr)
-	X = math.degrees(math.atan2(t0, t1))
-
-	t2 = +2.0 * (w*y - z*x)
-	t2 =  1 if t2 > 1 else t2
-	t2 = -1 if t2 < -1 else t2
-	Y = math.degrees(math.asin(t2))
-
-	t3 = +2.0 * (w * z + x*y)
-	t4 = +1.0 - 2.0 * (ysqr + z*z)
-	Z = math.degrees(math.atan2(t3, t4))
-
-	return X, Y, Z
 
 
 #SETUP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-iner = np.array([0., 0., 0.], dtype=np.uint8)
 
-#reading file
+#read tragetory file
 try:
 	with open('data_foot.txt', 'r') as f:
 		data_foot = np.loadtxt('data_foot.txt').reshape((nEstados,8))
@@ -195,40 +178,29 @@ try:
 		data_pelv = np.loadtxt('data_pelv.txt').reshape((nEstados,8))
 		print ("File data_pelv loaded!")
 except IOError:
-	print "Error"
+	print ("Error!! tragetory file not found..")
 	exit()
 
 
+#calculate turn tragetory
 vira_pelv = np.array([0]*nEstados, dtype=np.int8)
 vira_foot = np.array([0]*nEstados, dtype=np.int8)
 for indice in range(nEstados):
 	vira_pelv[i] = angulo_vira + angulo_vira*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
 	vira_foot[i] = angulo_vira - angulo_vira*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
 
+
+#read objetive direction
 qua = []
 while len(qua) != 6:
 	qua = [float(ord(c)) for c in ser_uno.readline()]
-if qua[0]:
+if (qua[0]):
 	bussola = qua[1] + 180
 else:
 	bussola = qua[1]
 
 
-#LOOP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-start = time.time()
-t = 0.
-t_fps = 0.
-t_state = 0.
-t_inercial = 0.
-state = 0
-fps = 0
-perna = 1
-incli = [128., 128., 128.]
-rot_desvio = 0
-rot_real = 0
-rota_esq = 0
-rota_dir = 0
-
+#adjust joints direction
 for i in range(nEstados):
 	#data_pelv[i][0] = (data_pelv[i][0]-90)*-1 + 90
 	data_foot[i][0] = (data_foot[i][0]-90)*-1 + 90
@@ -241,6 +213,27 @@ for i in range(nEstados):
 	#data_foot[i][4] = (data_foot[i][4]-90)*-1 + 90
 
 
+#set paramters
+start = time.time()
+t = 0.
+t_fps = 0.
+t_state = 0.
+t_inercial = 0.
+state = 0
+fps = 0
+perna = 1
+incli = [128.]*3
+iner = np.array([0.]*3, dtype=np.uint8)
+rot_desvio = 0
+rot_real = 0
+rota_esq = 0
+rota_dir = 0
+
+
+
+#LOOP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+#test Juan -------------------------------------------------------------------------------
 while 1:
 	break
 	dtime = time.time() - start
@@ -249,7 +242,7 @@ while 1:
 
 	if(t_fps >= 1.):
 		os.system("clear")
-		print "fps: ", fps
+		print ("fps: ", fps)
 		t_fps = 0.
 		fps = 0
 	fps = fps + 1
@@ -257,14 +250,11 @@ while 1:
 	T = back_cinematic(np.eye(4),mat2,0)
 	invKinematic(T)
 
+#main loop
 while 1:
-	#sending data
-	########################################	incluir iner no vetor de rotacao	##############################################
-	to_send = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
-	to_send2 = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 	send_test = []
 
-	#timers
+	#Timers
 	dTime = time.time() - start
 	start = time.time()
 	t += dTime
@@ -273,8 +263,8 @@ while 1:
 	t_inercial += dTime
 	
 	
-	#change state
-	if(t_state >= frameRate):
+	#Change state
+	if t_state >= frameRate:
 		t_state = 0
 		if state+1 == nEstados:
 			perna = (perna+1)%2			
@@ -297,26 +287,18 @@ while 1:
 		state = (state+1)%nEstados
 
 
-	#fps calculator
+	#FPS calculator
 	if t_fps > 1:
 		os.system("clear")
 		print ("fps:", fps)
 		t_fps = 0
 		fps = 0
-	
+	fps += 1
 	
 
-	#NANO (comunicacao) - luiz
-	#t_inercial = 0
-	#ser_uno.write('#')
-	#qua = [mapeia(float(ord(c)),255.,360.) for c in ser_uno.readline()]
-	#if(t_inercial*1000 > 20):	
-	send_test = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
-	#ser_uno.write(''.join(str(chr(e)) for e in send_test))	
+	#Inersial read (100hz)
 	qua = [float(ord(c))-90 for c in ser_uno.readline()]
-
 	if len(qua) == 6:
-		#t_inercial = 0
 		flag = qua[0]+90
 		if flag:
 			incli[2] = qua[1] + 90
@@ -326,60 +308,56 @@ while 1:
 		incli[0] =  qua[2]
 		incli[1] =  qua[3] 
 		iner = np.array(np.rint(incli), dtype=np.uint8)
-		data_pelv[state][3] = iner[0]
-		data_pelv[state][4] = iner[1]
-		#print incli
 
-	fps += 1	
 
-	#MEGA (comunicacao) marcos -teste
+	#Low level write (bound rate)
 	if perna:
 		if rota_esq == 1:
 			data_pelv[state][5] = 90 + vira_pelv[state]
-		else if rota_esq == -1:
+		elif rota_esq == -1:
 			data_pelv[state][5] = 90 + vira_pelv[state]*-1
 		else:
 			data_pelv[state][5] = 90
 
-		if rota_dir = 2:
+		if rota_dir == 2:
 			data_foot[state][5] = 90 + vira_foot[state]
-		else if rota_dir = -2:
+		elif rota_dir == -2:
 			data_foot[state][5] = 90 + vira_foot[state]*-1		
 		else:
 			data_foot[state][5] = 90
 
-		send_test = np.array([255]+data_pelv[state].tolist()+data_foot[state].tolist()+[254], dtype=np.uint8)
+		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
+		send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.uint8)
 		ser.write(''.join(str(chr(e)) for e in send_test))
 	else:
 		if rota_dir == 1:
 			data_pelv[state][5] = 90 + vira_pelv[state]
-		else if rota_dir == -1:
+		elif rota_dir == -1:
 			data_pelv[state][5] = 90 + vira_pelv[state]*-1
 		else:
 			data_pelv[state][5] = 90
 
-		if rota_esq = 2:
+		if rota_esq == 2:
 			data_foot[state][5] = 90 + vira_foot[state]
-		else if rota_esq = -2:
+		elif rota_esq == -2:
 			data_foot[state][5] = 90 + vira_foot[state]*-1		
 		else:
 			data_foot[state][5] = 90
-
-		send_test = np.array([255]+data_foot[state].tolist()+data_pelv[state].tolist()+[254], dtype=np.uint8)
+		
+		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
+		send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
 		ser.write(''.join(str(chr(e)) for e in send_test))
+	#print (state, " --- ", send_test)
 
-	#print state, " --- ", send_test
 
-	#CAMERA
+	#Camera read (30hz)
 	msg, cliente = udp.recvfrom(20)
 	if len(msg) and int(msg) != 0:
 		rot_desvio = float(int(msg))*meia_tela_angulo/meia_tela_pixel
 	else:
 		rot_desvio = bussola - rot_real
-	
-	
-		
-		
+
+
 
 #END +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 f.close()
