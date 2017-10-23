@@ -196,7 +196,7 @@ while 1:
 	buff = ser_uno.readline()
 	print (buff)
 	if buff is not b'':
-		qua = [float(c) for c in bytearray(str(buff), 'ascii')]
+		qua = [float(int(c)) for c in buff]
 		print ("karalho--------------")
 	else:
 		qua = []
