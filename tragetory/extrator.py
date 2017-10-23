@@ -193,10 +193,11 @@ for indice in range(nEstados):
 #read objetive direction
 qua = []
 while 1:
+	qua = [float(ord(c)) for c in ser_uno.readline()]
 	if len(qua) != 6:
 		continue
-	qua = [float(ord(c)) for c in ser_uno.readline()]
-	break
+	else:
+		break
 if (qua[0]):
 	bussola = qua[1] + 180
 else:
