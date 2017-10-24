@@ -5,6 +5,7 @@ import os
 import serial
 import socket
 from subprocess import check_output
+import signal
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 periodo = 3
@@ -39,7 +40,7 @@ ser_uno = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
 os.system("python ../visao/visao3.py&")
 cam_proc = int(check_output(["pidof", "python"]).split()[0])
 print (cam_proc, type(cam_proc))
-os.kill(cam_proc)
+os.kill(cam_proc, signal.SIGTERM)
 exit()
 
 #socket
