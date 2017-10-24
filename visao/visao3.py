@@ -5,7 +5,7 @@ import socket
 import math
 
 host = '127.0.0.1'     # Endereco IP do Servidor
-port = 666             # Porta que o Servidor esta
+port = 6666             # Porta que o Servidor esta
 udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 dest = (host, port)
 
@@ -23,7 +23,7 @@ cap.set(cv2.CAP_PROP_FRAME_WIDTH, width);
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height);
 
 
-while cap.isOpened():
+while cap.isOpened():	
 	# Capture frame-by-frame
 	ret, img = cap.read()
 	if not ret:
