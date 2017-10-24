@@ -320,7 +320,7 @@ while 1:
 		rot_real = incli[2]
 		incli[0] =  qua[2]
 		incli[1] =  qua[3]
-		iner = np.array(np.rint(incli), dtype=np.uint8)
+		iner = np.array(np.rint(incli), dtype=np.int)
 		print (iner)
 
 	#Low level write (bound rate)
