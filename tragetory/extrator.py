@@ -41,7 +41,7 @@ os.system("python ../visao/visao3.py&")
 cam_proc = int(check_output(["pidof", "python"]).split()[0])
 print (cam_proc, type(cam_proc))
 os.kill(cam_proc, signal.SIGTERM)
-exit()
+#exit()
 
 #socket
 HOST = ''              # Endereco IP do Servidor
