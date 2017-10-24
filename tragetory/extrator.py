@@ -352,6 +352,7 @@ while 1:
 		else:
 			data_foot[state][5] = 90
 
+		print (data_foot[5])
 		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
 		send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.uint8)
 		ser.write(bytes(send_test))		
@@ -370,6 +371,7 @@ while 1:
 		else:
 			data_foot[state][5] = 90
 		
+		print (data_pelv[5])
 		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
 		send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
 		ser.write(bytes(send_test))
@@ -385,7 +387,6 @@ while 1:
 				rot_desvio = diferenca_angular(rot_real)
 	except BlockingIOError:
 		rot_desvio = diferenca_angular(rot_real)
-	print (rot_desvio)
 
 
 
