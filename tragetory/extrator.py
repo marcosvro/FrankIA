@@ -198,6 +198,7 @@ while 1:
 		qua = [float(int(c)) for c in buff]
 	else:
 		qua = []
+	print ("Direção orientação objetivo..")
 	if len(qua) != 6:
 		continue
 	else:
