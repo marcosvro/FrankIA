@@ -6,7 +6,6 @@ import serial
 import socket
 from subprocess import check_output
 import signal
-import cv2
 
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -42,8 +41,6 @@ ser_uno = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
 os.system("python ../visao/visao3.py&")
 cam_proc = int(check_output(["pidof", "python"]).split()[0])
 print (cam_proc, type(cam_proc))
-os.kill(cam_proc, signal.SIGTERM)
-#exit()
 
 #socket
 HOST = ''              # Endereco IP do Servidor
@@ -284,7 +281,9 @@ while 1:
 	invKinematic(T)
 
 #main loop
-while cv2.waitKey(1) & 0xFF != ord('q'):
+
+try:
+    while True:
 	send_test = []
 
 	#Timers
@@ -402,10 +401,14 @@ while cv2.waitKey(1) & 0xFF != ord('q'):
 				rot_desvio = diferenca_angular(rot_real)
 	except BlockingIOError:
 		rot_desvio = diferenca_angular(rot_real)
+except KeyboardInterrupt:
+    pass
+
 
 
 
 #END +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+os.kill(cam_proc, signal.SIGTERM)
 f.close()
 udp.close()
 
