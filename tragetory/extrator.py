@@ -6,6 +6,7 @@ import serial
 import socket
 from subprocess import check_output
 import signal
+import getch
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 periodo = 3
@@ -283,7 +284,7 @@ while 1:
 	invKinematic(T)
 
 #main loop
-while 1:
+while getch.getch() != 'q':
 	send_test = []
 
 	#Timers
