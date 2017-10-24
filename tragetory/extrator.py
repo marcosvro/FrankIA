@@ -345,7 +345,8 @@ while 1:
 
 		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
 		send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.uint8)
-		ser.write(''.join(chr(e) for e in send_test))
+		ser.write(bytes(send_test))		
+		#ser.write(''.join(chr(e) for e in send_test))
 	else:
 		if rota_dir == 1:
 			data_pelv[state][5] = 90 + vira_pelv[state]
@@ -363,7 +364,8 @@ while 1:
 		
 		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
 		send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
-		ser.write(''.join(chr(e) for e in send_test))
+		ser.write(bytes(send_test))
+		#ser.write(''.join(chr(e) for e in send_test))
 	#print (state, " --- ", send_test)
 
 
