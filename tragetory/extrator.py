@@ -306,6 +306,11 @@ while 1:
 					else:
 						rota_dir = 1
 						rota_esq *= 2
+			else:
+				if math.fabs(rota_esq) == 1:
+					rota_esq = 0
+				if math.fabs(rota_dir) == 1:
+					rota_dir = 0
 				
 		state = (state+1)%nEstados
 
