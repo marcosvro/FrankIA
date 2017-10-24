@@ -194,10 +194,8 @@ for indice in range(nEstados):
 qua = []
 while 1:
 	buff = ser_uno.readline()
-	print (len(buff))
 	if len(buff):
 		qua = [float(int(c)) for c in buff]
-		print ("karalho--------------")
 	else:
 		qua = []
 	if len(qua) != 6:
@@ -307,10 +305,10 @@ while 1:
 
 	#Inersial read (100hz)
 	buff = ser_uno.readline()
-	if buff is None:
-		qua = []
+	if len(buff):
+		qua = [float(int(c)) for c in buff]
 	else:
-		qua = [float(c)-90 for c in bytearray(buff, "ascii")]	
+		qua = []	
 	if len(qua) == 6:
 		flag = qua[0]+90
 		if flag:
