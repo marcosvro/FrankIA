@@ -168,9 +168,19 @@ def invKinematic(A60):
 
 
 def diferenca_angular(x):
-	esquerda = (360-bussola + x) * -1
-	direita = bussola - x
-
+	if(bussola-x > 0):
+		dif = bussola - x
+		if dif > 180:
+			return dif - 360
+		else:
+			return dif
+	else:
+		dif = x - bussola
+		if dif > 180:
+			return 360 - dif
+		else:
+			return dif * -1
+		
 
 #SETUP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -318,15 +328,14 @@ while 1:
 	if len(qua) == 6:
 		flag = qua[0]+90
 		if flag:
-			incli[2] = qua[1] + 90 +180
+			incli[2] = qua[1] + 90 + 180
 		else:
 			incli[2] = qua[1] + 90
 		rot_real = incli[2]
 		incli[0] =  qua[2]
 		incli[1] =  qua[3]
 		iner = np.array(np.rint(incli), dtype=np.int)
-		print (iner)
-
+		
 	#Low level write (bound rate)
 	if perna:
 		if rota_esq == 1:
@@ -346,7 +355,6 @@ while 1:
 		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
 		send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.uint8)
 		ser.write(bytes(send_test))		
-		#ser.write(''.join(chr(e) for e in send_test))
 	else:
 		if rota_dir == 1:
 			data_pelv[state][5] = 90 + vira_pelv[state]
@@ -365,7 +373,6 @@ while 1:
 		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
 		send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
 		ser.write(bytes(send_test))
-		#ser.write(''.join(chr(e) for e in send_test))
 	#print (state, " --- ", send_test)
 
 
@@ -375,9 +382,10 @@ while 1:
 			if len(msg[0]) and int(msg[0]) != 0:
 				rot_desvio = float(int(msg[0]))*meia_tela_angulo/meia_tela_pixel
 			else:
-				rot_desvio = bussola - rot_real
+				rot_desvio = diferenca_angular(rot_real)
 	except BlockingIOError:
-		rot_desvio = bussola - rot_real
+		rot_desvio = diferenca_angular(rot_real)
+	print (rot_desvio)
 
 
 
