@@ -36,7 +36,7 @@ ser_uno = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
 
 #camera process inicialize
 cam_proc = os.system("python ../visao/visao3.py&")
-print cam_proc, type(cam_proc)
+print (cam_proc, type(cam_proc))
 
 #socket
 HOST = ''              # Endereco IP do Servidor
