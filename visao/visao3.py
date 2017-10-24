@@ -12,8 +12,8 @@ dest = (host, port)
 width = 160
 height = 120
 
-ch = 0.99
-cw = 0.01
+ch = 0.7
+cw = 0.3
 
 center_x = int(width/2)
 center_y = int(height/2)
@@ -47,7 +47,7 @@ while cap.isOpened():
 		if sure_bg[height-1, i]:
 			break
 		try:
-			dist_aux = float(height-1 - sure_bg[:height, i].nonzero()[0][-1])/float(height)*ch + float(center_x-math.fabs(center_x-i))/float(center_x)
+			dist_aux = float(height-1 - sure_bg[:height, i].nonzero()[0][-1])*ch + float(center_x-math.fabs(center_x-i))*cw
 		except IndexError:
 			break
 		if dist_aux > dist_better:
@@ -58,7 +58,7 @@ while cap.isOpened():
 		if sure_bg[height-1, i]:
 			break
 		try:
-			dist_aux = float(height-1 - sure_bg[:height, i].nonzero()[0][-1])/float(height)*ch + float(center_x-math.fabs(center_x-i))/float(center_x)
+			dist_aux = float(height-1 - sure_bg[:height, i].nonzero()[0][-1])*ch + float(center_x-math.fabs(center_x-i))*cw
 		except IndexError:
 			break
 

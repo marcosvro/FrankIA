@@ -395,7 +395,7 @@ try:
 		#Camera read (30hz)
 		try:
 			msg, cliente = udp.recvfrom(20)
-			if len(msg) and int(msg) != 0:
+			if len(msg) > 0 and int(msg) != 0:
 				rot_desvio = float(int(msg))*meia_tela_angulo/meia_tela_pixel
 				print (rot_desvio)
 			else:
