@@ -364,10 +364,13 @@ while 1:
 
 
 	#Camera read (30hz)
-	msg, cliente = udp.recvfrom(20)
-	if len(msg) and int(msg) != 0:
-		rot_desvio = float(int(msg))*meia_tela_angulo/meia_tela_pixel
-	else:
+	try:
+		with msg, cliente = udp.recvfrom(20)
+			if len(msg) and int(msg) != 0:
+				rot_desvio = float(int(msg))*meia_tela_angulo/meia_tela_pixel
+			else:
+				rot_desvio = bussola - rot_real
+	except BlockingIOError:
 		rot_desvio = bussola - rot_real
 
 
