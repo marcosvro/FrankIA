@@ -37,7 +37,7 @@ ser_uno = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
 
 #camera process inicialize
 #os.system("python ../visao/visao3.py&")
-cam_proc = int(check_output(["pidof","-bash"]))
+cam_proc = int(check_output(["pidof","python"]))
 
 print (cam_proc, type(cam_proc))
 exit()
