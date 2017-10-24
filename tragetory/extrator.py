@@ -317,14 +317,14 @@ try:
 							rota_dir = 1
 							rota_esq *= 2
 				else:
-					if math.fabs(rota_esq) == 1:
+					if math.fabs(rota_esq) == 2:
 						rota_esq = 0
-					elif math.fabs(rota_esq) == 2:
-						rota_esq /= 2					
-					if math.fabs(rota_dir) == 1:
+					elif math.fabs(rota_esq) == 1:
+						rota_esq *= 2					
+					if math.fabs(rota_dir) == 2:
 						rota_dir = 0
-					elif math.fabs(rota_dir) == 2:
-						rota_dir /= 2
+					elif math.fabs(rota_dir) == 1:
+						rota_dir *= 2
 				
 			state = (state+1)%nEstados
 
