@@ -6,7 +6,8 @@ import serial
 import socket
 from subprocess import check_output
 import signal
-import getch
+import cv2
+
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 periodo = 3
@@ -263,7 +264,6 @@ rota_esq = 0
 rota_dir = 0
 
 
-
 #LOOP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #test Juan -------------------------------------------------------------------------------
@@ -284,7 +284,7 @@ while 1:
 	invKinematic(T)
 
 #main loop
-while getch.getch() != 'q':
+while cv2.waitKey(1) & 0xFF != ord('q'):
 	send_test = []
 
 	#Timers
