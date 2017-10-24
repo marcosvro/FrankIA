@@ -283,124 +283,124 @@ while 1:
 #main loop
 
 try:
-    while True:
-	send_test=[]
+	while 1:
+		send_test=[]
 
-	#Timers
-	dTime = time.time() - start
-	start = time.time()
-	t += dTime
-	t_fps += dTime
-	t_state += dTime
-	t_inercial += dTime
+		#Timers
+		dTime = time.time() - start
+		start = time.time()
+		t += dTime
+		t_fps += dTime
+		t_state += dTime
+		t_inercial += dTime
 	
 	
-	#Change state
-	if t_state >= frameRate:
-		t_state = 0
-		if state+1 == nEstados:
-			perna = (perna+1)%2			
-			if math.fabs(rot_desvio) > 5:
-				if rot_desvio < 0:
-					if perna:
-						rota_esq = -1
-						rota_dir *= 2
+		#Change state
+		if t_state >= frameRate:
+			t_state = 0
+			if state+1 == nEstados:
+				perna = (perna+1)%2			
+				if math.fabs(rot_desvio) > 5:
+					if rot_desvio < 0:
+						if perna:
+							rota_esq = -1
+							rota_dir *= 2
+						else:
+							rota_dir = -1
+							rota_esq *= 2
 					else:
-						rota_dir = -1
-						rota_esq *= 2
+						if perna:
+							rota_esq = 1
+							rota_dir *= 2
+						else:
+							rota_dir = 1
+							rota_esq *= 2
 				else:
-					if perna:
-						rota_esq = 1
-						rota_dir *= 2
-					else:
-						rota_dir = 1
-						rota_esq *= 2
-			else:
-				if math.fabs(rota_esq) == 1:
-					rota_esq = 0
-				if math.fabs(rota_dir) == 1:
-					rota_dir = 0
+					if math.fabs(rota_esq) == 1:
+						rota_esq = 0
+					if math.fabs(rota_dir) == 1:
+						rota_dir = 0
 				
-		state = (state+1)%nEstados
+			state = (state+1)%nEstados
 
 
-	#FPS calculator
-	if t_fps > 1:
-		#os.system("clear")
-		#print ("fps:", fps)
-		t_fps = 0
-		fps = 0
-	fps += 1
+		#FPS calculator
+		if t_fps > 1:
+			#os.system("clear")
+			#print ("fps:", fps)
+			t_fps = 0
+			fps = 0
+		fps += 1
 	
 
-	#Inersial read (100hz)
-	buff = ser_uno.readline()
-	if len(buff):
-		qua = [float(int(c)-90) for c in buff]
-	else:
-		qua = []	
-	if len(qua) == 6:
-		flag = qua[0]+90
-		if flag:
-			incli[2] = qua[1] + 90 + 180
+		#Inersial read (100hz)
+		buff = ser_uno.readline()
+		if len(buff):
+			qua = [float(int(c)-90) for c in buff]
 		else:
-			incli[2] = qua[1] + 90
-		rot_real = incli[2]
-		incli[0] =  qua[2]
-		incli[1] =  qua[3]
-		iner = np.array(np.rint(incli), dtype=np.int)
-		
-	#Low level write (bound rate)
-	if perna:
-		if rota_esq == 1:
-			data_pelv[state][5] = 90 + vira_pelv[state]
-		elif rota_esq == -1:
-			data_pelv[state][5] = 90 + vira_pelv[state]*-1
-		else:
-			data_pelv[state][5] = 90
-
-		if rota_dir == 2:
-			data_foot[state][5] = 90 + vira_foot[state]
-		elif rota_dir == -2:
-			data_foot[state][5] = 90 + vira_foot[state]*-1		
-		else:
-			data_foot[state][5] = 90
-
-		print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
-		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
-		send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.uint8)
-		ser.write(bytes(send_test))		
-	else:
-		if rota_dir == 1:
-			data_pelv[state][5] = 90 + vira_pelv[state]
-		elif rota_dir == -1:
-			data_pelv[state][5] = 90 + vira_pelv[state]*-1
-		else:
-			data_pelv[state][5] = 90
-
-		if rota_esq == 2:
-			data_foot[state][5] = 90 + vira_foot[state]
-		elif rota_esq == -2:
-			data_foot[state][5] = 90 + vira_foot[state]*-1		
-		else:
-			data_foot[state][5] = 90
-		
-		print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
-		pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
-		send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
-		ser.write(bytes(send_test))
-	#print (state, " --- ", send_test)
-
-
-	#Camera read (30hz)
-	try:
-		with udp.recvfrom(20) as msg:
-			if len(msg[0]) and int(msg[0]) != 0:
-				rot_desvio = float(int(msg[0]))*meia_tela_angulo/meia_tela_pixel
+			qua = []	
+		if len(qua) == 6:
+			flag = qua[0]+90
+			if flag:
+				incli[2] = qua[1] + 90 + 180
 			else:
-				rot_desvio = diferenca_angular(rot_real)
-	except BlockingIOError:
-		rot_desvio = diferenca_angular(rot_real)
+				incli[2] = qua[1] + 90
+			rot_real = incli[2]
+			incli[0] =  qua[2]
+			incli[1] =  qua[3]
+			iner = np.array(np.rint(incli), dtype=np.int)
+		
+		#Low level write (bound rate)
+		if perna:
+			if rota_esq == 1:
+				data_pelv[state][5] = 90 + vira_pelv[state]
+			elif rota_esq == -1:
+				data_pelv[state][5] = 90 + vira_pelv[state]*-1
+			else:
+				data_pelv[state][5] = 90
+
+			if rota_dir == 2:
+				data_foot[state][5] = 90 + vira_foot[state]
+			elif rota_dir == -2:
+				data_foot[state][5] = 90 + vira_foot[state]*-1		
+			else:
+				data_foot[state][5] = 90
+
+			print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
+			pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
+			send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.uint8)
+			ser.write(bytes(send_test))		
+		else:
+			if rota_dir == 1:
+				data_pelv[state][5] = 90 + vira_pelv[state]
+			elif rota_dir == -1:
+				data_pelv[state][5] = 90 + vira_pelv[state]*-1
+			else:
+				data_pelv[state][5] = 90
+
+			if rota_esq == 2:
+				data_foot[state][5] = 90 + vira_foot[state]
+			elif rota_esq == -2:
+				data_foot[state][5] = 90 + vira_foot[state]*-1		
+			else:
+				data_foot[state][5] = 90
+		
+			print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
+			pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
+			send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			ser.write(bytes(send_test))
+		#print (state, " --- ", send_test)
+
+
+		#Camera read (30hz)
+		try:
+			with udp.recvfrom(20) as msg:
+				if len(msg[0]) and int(msg[0]) != 0:
+					rot_desvio = float(int(msg[0]))*meia_tela_angulo/meia_tela_pixel
+				else:
+					rot_desvio = diferenca_angular(rot_real)
+		except BlockingIOError:
+			rot_desvio = diferenca_angular(rot_real)
 except KeyboardInterrupt:
     pass
 
