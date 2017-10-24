@@ -35,7 +35,8 @@ ser = serial.Serial('/dev/ttyUSB0', 230400, timeout=0)
 ser_uno = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
 
 #camera process inicialize
-cam_proc = os.system("python ../visao/visao3.py&")
+os.system("python ../visao/visao3.py&")
+cam_proc = os.system("ps aux | grep ../visao/visao3.py")
 print (cam_proc, type(cam_proc))
 exit()
 
