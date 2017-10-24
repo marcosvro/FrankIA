@@ -259,6 +259,7 @@ rot_desvio = 0
 rot_real = 0
 rota_esq = 0
 rota_dir = 0
+obstaculo = 0
 
 
 #LOOP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -397,10 +398,13 @@ try:
 			msg, cliente = udp.recvfrom(20)
 			if len(msg) > 0 and int(msg) != 0:
 				rot_desvio = float(int(msg))*meia_tela_angulo/meia_tela_pixel
+				obstaculo = 1
 			else:
 				rot_desvio = diferenca_angular(rot_real)
+				obstaculo = 0
 		except BlockingIOError:
-			rot_desvio = diferenca_angular(rot_real)
+			if not obstaculo:
+				rot_desvio = diferenca_angular(rot_real)
 except KeyboardInterrupt:
     pass
 
