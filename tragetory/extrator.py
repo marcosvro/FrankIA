@@ -308,7 +308,7 @@ while 1:
 	#Inersial read (100hz)
 	buff = ser_uno.readline()
 	if len(buff):
-		qua = [float(int(c)) for c in buff]
+		qua = [float(int(c)-90) for c in buff]
 	else:
 		qua = []	
 	if len(qua) == 6:
