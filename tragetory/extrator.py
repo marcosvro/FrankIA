@@ -314,9 +314,9 @@ while 1:
 	if len(qua) == 6:
 		flag = qua[0]+90
 		if flag:
-			incli[2] = qua[1] + 90
+			incli[2] = qua[1] + 90 +180
 		else:
-			incli[2] = qua[1] - 90
+			incli[2] = qua[1] + 90
 		rot_real = incli[2]
 		incli[0] =  qua[2]
 		incli[1] =  qua[3]
