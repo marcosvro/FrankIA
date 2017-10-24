@@ -284,7 +284,7 @@ while 1:
 
 try:
     while True:
-	send_test = []
+	send_test=[]
 
 	#Timers
 	dTime = time.time() - start
