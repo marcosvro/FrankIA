@@ -5,7 +5,7 @@ import socket
 import math
 
 host = '127.0.0.1'     # Endereco IP do Servidor
-port = 6666             # Porta que o Servidor esta
+port = 2525             # Porta que o Servidor esta
 udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 dest = (host, port)
 

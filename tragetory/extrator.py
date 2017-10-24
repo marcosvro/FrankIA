@@ -43,7 +43,7 @@ cam_proc = int(check_output(["pidof", "python"]).split()[0])
 
 #socket
 HOST = ''               # Endereco IP do Servidor
-PORT = 6666             # Porta que o Servidor esta
+PORT = 2525             # Porta que o Servidor esta
 udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 orig = (HOST, PORT)
 udp.bind(orig)
