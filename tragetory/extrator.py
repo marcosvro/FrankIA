@@ -366,7 +366,7 @@ try:
 			else:
 				data_foot[state][5] = 90
 
-			print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
+			#print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
 			pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
 			send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.uint8)
 			ser.write(bytes(send_test))		
@@ -385,7 +385,7 @@ try:
 			else:
 				data_foot[state][5] = 90
 		
-			print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
+			#print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
 			pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
 			send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			ser.write(bytes(send_test))
@@ -395,6 +395,7 @@ try:
 		#Camera read (30hz)
 		try:
 			msg, cliente = udp.recvfrom(20)
+			print (int(msg), len(msg), msg)
 			if len(msg) and int(msg) != 0:
 				rot_desvio = float(int(msg))*meia_tela_angulo/meia_tela_pixel
 			else:
