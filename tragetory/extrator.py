@@ -34,8 +34,8 @@ ab6 = np.array([[0.,0.,1.,0.],[0.,1.,0.,-4.5],[-1.,0.,0.,-22.99],[0.,0.,0.,1.]],
 
 #COMUNICATION +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #serial
-ser = serial.Serial('/dev/ttyUSB0', 230400, timeout=0)
-ser_uno = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
+ser = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
+ser_uno = serial.Serial('/dev/ttyUSB0', 230400, timeout=0)
 
 #camera process inicialize
 os.system("python ../visao/visao3.py&")
@@ -260,6 +260,7 @@ rot_real = 0
 rota_esq = 0
 rota_dir = 0
 obstaculo = 0
+pos_atual = []
 
 
 #LOOP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -286,7 +287,6 @@ while 1:
 try:
 	while 1:
 		send_test=[]
-
 		#Timers
 		dTime = time.time() - start
 		start = time.time()
@@ -338,6 +338,14 @@ try:
 		fps += 1
 	
 
+		#posição read
+		buff2 = ser.readline()
+		qua2 = []
+		if len(buff2):
+			qua2 = [float(int(c)-90) for c in buff2]
+		if len(qua2) == 10:
+			pos_atual = np.array(np.rint(qua2), dtype=np.int)
+			print (pos_atual)
 		#Inersial read (100hz)
 		buff = ser_uno.readline()
 		if len(buff):
