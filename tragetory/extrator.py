@@ -404,6 +404,7 @@ try:
 			#ser.write(bytes(send_test))
 		#print (state, " --- ", send_test)
 		ser.write(bytes(send_test[:9]+[254]))
+		print (send_test)
 
 		#Camera read (30hz)
 		try:
