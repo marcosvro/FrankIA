@@ -361,7 +361,7 @@ try:
 			rot_real = incli[2]
 			incli[0] =  qua[2]
 			incli[1] =  qua[3]
-			iner = np.array(np.rint(incli), dtype=np.int)
+			iner = np.array(np.rint(incli), dtype=np.uint8)
 		
 		#Low level write (bound rate)
 		if perna:
