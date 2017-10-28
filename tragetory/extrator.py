@@ -403,8 +403,9 @@ try:
 			send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			#ser.write(bytes(send_test))
 		#print (state, " --- ", send_test)
-		ser.write(bytes(send_test[:9]+[254]))
-		print (send_test)
+		teste_porra = bytes(send_test[:9]+[254])
+		ser.write(teste_porra)
+		print (teste_porra)
 
 		#Camera read (30hz)
 		try:
