@@ -403,8 +403,7 @@ try:
 			send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			#ser.write(bytes(send_test))
 		#print (state, " --- ", send_test)
-		teste_porra = bytes(send_test[:9]+[254])
-		ser.write([1, 2, 3, 4])
+		teste_porra = send_test[:9]+[254]
 		ser.write(teste_porra)
 		print ("tamanho ", len(teste_porra), " ",teste_porra)
 
