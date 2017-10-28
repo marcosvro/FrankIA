@@ -381,7 +381,7 @@ try:
 
 			#print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
 			pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
-			send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.bytes)
+			send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#ser.write(bytes(send_test))		
 		else:
 			if rota_dir == 1:
@@ -400,12 +400,12 @@ try:
 		
 			#print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
 			pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
-			send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.bytes)
+			send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			#ser.write(bytes(send_test))
 		#print (state, " --- ", send_test)
-		teste_porra = send_test[:9]+[254]
-		ser.write(teste_porra)
-		print ("tamanho ", len(teste_porra), " ",teste_porra)
+		teste_porra = send_test[:9].tolist()+[254]
+		ser.write(send_test)
+		print ("tamanho ", len(send_test), " ",send_test)
 
 		#Camera read (30hz)
 		try:
