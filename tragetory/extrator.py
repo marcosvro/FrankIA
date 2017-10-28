@@ -405,7 +405,7 @@ try:
 		#print (state, " --- ", send_test)
 		teste_porra = bytes(send_test[:9]+[254])
 		ser.write(teste_porra)
-		print ("tamanho ", len(test_porra), " ",teste_porra)
+		print ("tamanho ", len(teste_porra), " ",teste_porra)
 
 		#Camera read (30hz)
 		try:
