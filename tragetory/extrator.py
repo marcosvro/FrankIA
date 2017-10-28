@@ -404,7 +404,7 @@ try:
 			#ser.write(bytes(send_test))
 		#print (state, " --- ", send_test)
 		teste_porra = bytes(send_test[:9]+[254])
-		ser.write(['a', 'b', 'c', 'd'])
+		ser.write([1, 2, 3, 4])
 		ser.write(teste_porra)
 		print ("tamanho ", len(teste_porra), " ",teste_porra)
 
