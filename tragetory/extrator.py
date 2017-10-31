@@ -214,7 +214,7 @@ for indice in range(nEstados):
 
 
 #read objetive direction
-qua = []
+'''qua = []
 while 1:
 	buff = ser_uno.readline()
 	if len(buff):
@@ -230,6 +230,7 @@ if (qua[0]+90):
 	bussola = qua[1] + 90 + 180
 else:
 	bussola = qua[1] + 90
+'''
 
 #adjust joints direction
 for i in range(nEstados):
@@ -381,7 +382,7 @@ try:
 
 			#print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
 			pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
-			send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.np.unicode_)
+			send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#ser.write(bytes(send_test))		
 		else:
 			if rota_dir == 1:
@@ -400,12 +401,11 @@ try:
 		
 			#print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
 			pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
-			send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.unicode_)
+			send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			#ser.write(bytes(send_test))
 		#print (state, " --- ", send_test)
-		teste_porra = send_test[:9].tolist()+[254]
-		ser.write(teste_porra)
-		print ("tamanho ", len(teste_porra), " ",teste_porra)
+		ser.write(send_test)
+		print (send_test)		
 
 		#Camera read (30hz)
 		try:
