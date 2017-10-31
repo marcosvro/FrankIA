@@ -404,6 +404,7 @@ try:
 			send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			#ser.write(bytes(send_test))
 		#print (state, " --- ", send_test)
+		send_test = send_test.astype(np.bytes_)
 		ser.write(send_test)
 		print (send_test)		
 
