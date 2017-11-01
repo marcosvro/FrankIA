@@ -349,7 +349,7 @@ try:
 			pos_atual = np.array(np.rint(qua2), dtype=np.int)
 			print (pos_atual)
 		elif len(qua2) != 0:
-			print (buff)
+			print (buff2)
 		#Inersial read (100hz)
 		buff = ser_uno.readline()
 		if len(buff):
