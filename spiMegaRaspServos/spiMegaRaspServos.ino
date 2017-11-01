@@ -84,8 +84,8 @@ ISR (SPI_STC_vect){
 
 void setup()
 {
-  Serial.begin(115200);
-  Serial2.begin(115200);
+  Serial.begin(9600);
+  //Serial2.begin(115200);
 
   // have to send on master in, *slave out*
   pinMode(MISO, OUTPUT);
@@ -113,11 +113,16 @@ void loop() {
   leitura();
   if(state){
     state = false;
-    Serial.println("Com dados");
-    walkState();
-  }else{
-    Serial.println("Sem dados!!");
-  }
+    for(int i =0; i<8; i++) {
+      Serial.print(int(faz[i]));
+      Serial.print(" ");
+    }
+    Serial.println();
+    //Serial.println("Com dados");
+    //walkState();
+  }//else{
+  //  Serial.println("Sem dados!!");
+  //}
   
 }
 
@@ -183,10 +188,11 @@ void iddleState() {
 }
 
 void leitura() {
-  while(!Serial.available());
+  if(Serial.available() <= 10)
+    return;
   int s = Serial.read();
   if(s==255){
-        for(int i=0;i<16;i++){
+        for(int i=0;i<8;i++){
              while(!Serial.available());
              faz[i] = Serial.read() - 90;
         }

@@ -6,6 +6,7 @@ import serial
 import socket
 from subprocess import check_output
 import signal
+import struct
 
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -404,9 +405,12 @@ try:
 			send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			#ser.write(bytes(send_test))
 		#print (state, " --- ", send_test)
-		send_test = send_test.astype(np.bytes_)
-		ser.write(send_test)
-		print (send_test)		
+		#send_test = bytes(send_test)
+		test_stm = send_test[:9].tolist()+[254]
+		print (test_stm)
+		print (struct.pack('>10B', *test_stm))
+		ser.write(struct.pack('>10B', *test_stm))
+				
 
 		#Camera read (30hz)
 		try:
