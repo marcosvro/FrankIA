@@ -342,10 +342,12 @@ try:
 	
 
 		#posição read
-		if(perna):
+		'''if(perna):
 			buff2 = ser2.readline()
 		else:
 			buff2 = ser.readline()
+		'''
+		buff2 = ser2.readline()
 		qua2 = []
 		if len(buff2):
 			qua2 = [int(c)-90 for c in buff2]
@@ -353,7 +355,7 @@ try:
 			pos_atual = np.array(np.rint(qua2), dtype=np.int)
 			print (pos_atual)
 		ser.flushInput()
-		ser2.flushInput()
+		#ser2.flushInput()
 
 
 		#Inersial read (100hz)
