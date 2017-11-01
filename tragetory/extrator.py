@@ -36,6 +36,7 @@ ab6 = np.array([[0.,0.,1.,0.],[0.,1.,0.,-4.5],[-1.,0.,0.,-22.99],[0.,0.,0.,1.]],
 #COMUNICATION +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #serial
 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=0)
+ser2 = serial.Serial('/dev/ttyUSB3', 115200, timeout=0)
 ser_uno = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
 
 #camera process inicialize
@@ -341,17 +342,21 @@ try:
 	
 
 		#posição read
-		buff2 = ser.readline()
+		if(perna):
+			buff2 = ser2.readline()
+			ser2.flushInput()
+		else:
+			buff2 = ser.readline()
+			ser.flushInput()
 		qua2 = []
 		if len(buff2):
-			qua2 = [int(c) for c in buff2]
+			qua2 = [int(c)-90 for c in buff2]
 		if len(qua2) == 10:
 			pos_atual = np.array(np.rint(qua2), dtype=np.int)
 			print (pos_atual)
-		elif len(qua2) != 0:
-			pass
-			#print (buff2)
-		ser.flushInput()
+		
+
+
 		#Inersial read (100hz)
 		buff = ser_uno.readline()
 		if len(buff):
@@ -369,6 +374,7 @@ try:
 			incli[1] =  qua[3] + 90
 			iner = np.array(np.rint(incli), dtype=np.uint8)
 		
+
 		#Low level write (bound rate)
 		if perna:
 			if rota_esq == 1:
@@ -386,9 +392,10 @@ try:
 				data_foot[state][5] = 90
 
 			#print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
-			pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
-			send_test = np.array([255]+pelv_iner+data_foot[state].tolist()+[254], dtype=np.uint8)
-			#ser.write(bytes(send_test))		
+			pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
+			ser.write(struct.pack('>10B', *(send_test.tolist())))
+			ser2.write(struct.pack('>10B', *(pelv_iner.tolist())))		
 		else:
 			if rota_dir == 1:
 				data_pelv[state][5] = 90 + vira_pelv[state]
@@ -405,15 +412,14 @@ try:
 				data_foot[state][5] = 90
 		
 			#print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
-			pelv_iner = data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()
-			send_test = np.array([255]+pelv_iner+data_pelv[state].tolist()+[254], dtype=np.uint8)
-			#ser.write(bytes(send_test))
-		#print (state, " --- ", send_test)
-		#send_test = bytes(send_test)
-		test_stm = send_test[:9].tolist()+[254]
+			pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
+			ser.write(struct.pack('>10B', *(pelv_iner.tolist())))
+			ser2.write(struct.pack('>10B', *(send_test.tolist())))
+		#test_stm = send_test[:9].tolist()+[254]
 		#print (test_stm)
 		#print (struct.pack('>10B', *test_stm))
-		ser.write(struct.pack('>10B', 255,180,20,40,60,80,100,120,140,254))
+		#ser.write(struct.pack('>10B', *test_stm))
 				
 
 		#Camera read (30hz)
