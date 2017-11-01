@@ -348,6 +348,8 @@ try:
 		if len(qua2) == 10:
 			pos_atual = np.array(np.rint(qua2), dtype=np.int)
 			print (pos_atual)
+		else:
+			print(qua2)
 		#Inersial read (100hz)
 		buff = ser_uno.readline()
 		if len(buff):
@@ -407,8 +409,8 @@ try:
 		#print (state, " --- ", send_test)
 		#send_test = bytes(send_test)
 		test_stm = send_test[:9].tolist()+[254]
-		print (test_stm)
-		print (struct.pack('>10B', *test_stm))
+		#print (test_stm)
+		#print (struct.pack('>10B', *test_stm))
 		ser.write(struct.pack('>10B', *test_stm))
 				
 
