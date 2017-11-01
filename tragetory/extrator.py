@@ -347,7 +347,7 @@ try:
 		else:
 			buff2 = ser.readline()
 		'''
-		buff2 = ser2.readline()
+		buff2 = ser.readline()
 		qua2 = []
 		if len(buff2):
 			qua2 = [int(c)-90 for c in buff2]
