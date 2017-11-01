@@ -349,6 +349,7 @@ try:
 			pos_atual = np.array(np.rint(qua2), dtype=np.int)
 			print (pos_atual)
 		elif len(qua2) != 0:
+			pass
 			#print (buff2)
 		ser.flushInput()
 		#Inersial read (100hz)
