@@ -413,7 +413,7 @@ try:
 		test_stm = send_test[:9].tolist()+[254]
 		#print (test_stm)
 		#print (struct.pack('>10B', *test_stm))
-		ser.write(struct.pack('>10B', 255,0,20,40,60,80,100,120,140,254))
+		ser.write(struct.pack('>10B', 255,180,20,40,60,80,100,120,140,254))
 				
 
 		#Camera read (30hz)
