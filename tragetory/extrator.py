@@ -350,6 +350,7 @@ try:
 			print (pos_atual)
 		elif len(qua2) != 0:
 			print (buff2)
+		ser.flushInput()
 		#Inersial read (100hz)
 		buff = ser_uno.readline()
 		if len(buff):
