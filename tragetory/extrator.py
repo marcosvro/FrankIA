@@ -344,12 +344,12 @@ try:
 		buff2 = ser.readline()
 		qua2 = []
 		if len(buff2):
-			qua2 = [float(int(c)-90) for c in buff2]
+			qua2 = [int(c)-90 for c in buff2]
 		if len(qua2) == 10:
 			pos_atual = np.array(np.rint(qua2), dtype=np.int)
 			print (pos_atual)
-		else:
-			print(qua2)
+		elif len(qua2) != 0:
+			print (qua2)
 		#Inersial read (100hz)
 		buff = ser_uno.readline()
 		if len(buff):
