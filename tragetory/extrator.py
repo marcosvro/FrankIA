@@ -395,10 +395,10 @@ try:
 			#print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
 			pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
-			ser.write(struct.pack('>10B', *(send_test.tolist())))
-			ser2.write(struct.pack('>10B', *(pelv_iner.tolist())))
-			#ser.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
-			#ser2.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))		
+			#ser.write(struct.pack('>10B', *(send_test.tolist())))
+			#ser2.write(struct.pack('>10B', *(pelv_iner.tolist())))
+			ser.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
+			ser2.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))		
 		else:
 			if rota_dir == 1:
 				data_pelv[state][5] = 90 + vira_pelv[state]
@@ -417,10 +417,10 @@ try:
 			#print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
 			pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
-			ser.write(struct.pack('>10B', *(pelv_iner.tolist())))
-			ser2.write(struct.pack('>10B', *(send_test.tolist())))
-			#ser.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
-			#ser2.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
+			#ser.write(struct.pack('>10B', *(pelv_iner.tolist())))
+			#ser2.write(struct.pack('>10B', *(send_test.tolist())))
+			ser.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
+			ser2.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
 		#test_stm = send_test[:9].tolist()+[254]
 		#print (test_stm)
 		#print (struct.pack('>10B', *test_stm))
