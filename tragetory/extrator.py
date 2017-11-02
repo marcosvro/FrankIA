@@ -216,7 +216,7 @@ for indice in range(nEstados):
 
 
 #read objetive direction
-'''qua = []
+qua = []
 while 1:
 	buff = ser_uno.readline()
 	if len(buff):
@@ -232,7 +232,7 @@ if (qua[0]+90):
 	bussola = qua[1] + 90 + 180
 else:
 	bussola = qua[1] + 90
-'''
+
 
 #adjust joints direction
 for i in range(nEstados):
