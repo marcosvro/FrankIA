@@ -397,11 +397,11 @@ try:
 			#pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
-			print (send_test)
-			#ser.write(struct.pack('>10B', *(send_test.tolist())))
-			#ser2.write(struct.pack('>10B', *(send_pelv.tolist())))
-			ser.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
-			ser2.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))		
+			print (send_test, send_pelv)
+			ser.write(struct.pack('>10B', *(send_test.tolist())))
+			ser2.write(struct.pack('>10B', *(send_pelv.tolist())))
+			#ser.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
+			#ser2.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))		
 		else:
 			if rota_dir == 1:
 				data_pelv[state][5] = 90 + vira_pelv[state]
@@ -421,11 +421,11 @@ try:
 			#pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
-			print (send_pelv)
-			#ser.write(struct.pack('>10B', *(send_pelv.tolist())))
-			#ser2.write(struct.pack('>10B', *(send_test.tolist())))
-			ser.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
-			ser2.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
+			print (send_pelv, send_test)
+			ser.write(struct.pack('>10B', *(send_pelv.tolist())))
+			ser2.write(struct.pack('>10B', *(send_test.tolist())))
+			#ser.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
+			#ser2.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
 				
 
 		#Camera read (30hz)
