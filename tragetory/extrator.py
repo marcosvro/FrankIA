@@ -35,9 +35,9 @@ ab6 = np.array([[0.,0.,1.,0.],[0.,1.,0.,-4.5],[-1.,0.,0.,-22.99],[0.,0.,0.,1.]],
 
 #COMUNICATION +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #serial
-ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=0)
-ser2 = serial.Serial('/dev/ttyUSB1', 115200, timeout=0)
-ser_uno = serial.Serial('/dev/ttyUSB2', 230400, timeout=0)
+ser = serial.Serial('/dev/ttyUSB2', 115200, timeout=0)
+ser2 = serial.Serial('/dev/ttyUSB0', 115200, timeout=0)
+ser_uno = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
 
 #camera process inicialize
 os.system("python ../visao/visao3.py&")
@@ -45,7 +45,7 @@ cam_proc = int(check_output(["pidof", "python"]).split()[0])
 
 #socket
 HOST = ''               # Endereco IP do Servidor
-PORT = 2525             # Porta que o Servidor esta
+PORT = 2525             # Porta que o Servidor estax'
 udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 orig = (HOST, PORT)
 udp.bind(orig)
