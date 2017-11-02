@@ -4,7 +4,6 @@ import threading
 #import cv2
 import time
 import os
-import spidev
 import ikpy as ik
 from ikpy import plot_utils
 
@@ -12,7 +11,7 @@ from ikpy import plot_utils
 
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-deslocamentoZpes = 3.
+deslocamentoZpes = 3
 deslocamentoXpes = 7.
 deslocamentoYpes = 0.
 deslocamentoYpelves = 1.5
@@ -167,6 +166,17 @@ def thread_cinematica_pe(indice):
 	data_foot[indice][6] = 90	
 	#cotovelo	
 	data_foot[indice][7] = 90
+	if indice < 2:
+		return
+	erro = 0.
+	for i in range(8):
+		erro += (float(data_foot[indice-1][i])-float(data_foot[indice][i]))**2
+	erro = math.sqrt(erro)
+	print ("Erro : ", erro)
+	if erro > 60:
+		for i in range(8):
+			data_foot[indice][i] = data_foot[indice-1][i]
+	
 
 
 '''Cria nEstados threads para calcular a cinematica inversa considerando que o intervalo de execucao T esta particionado em nEstados.'''
