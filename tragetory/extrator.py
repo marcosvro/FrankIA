@@ -10,7 +10,7 @@ import struct
 
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-periodo = 0.1
+periodo = 0.2
 nEstados = 125
 frameRate = float(float(periodo)/float(nEstados))
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
@@ -35,8 +35,8 @@ ab6 = np.array([[0.,0.,1.,0.],[0.,1.,0.,-4.5],[-1.,0.,0.,-22.99],[0.,0.,0.,1.]],
 
 #COMUNICATION +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #serial
-ser = serial.Serial('/dev/ttyUSB2', 115200, timeout=0)
-ser2 = serial.Serial('/dev/ttyUSB0', 115200, timeout=0)
+ser = serial.Serial('/dev/ttyUSB2', 230400, timeout=0)
+ser2 = serial.Serial('/dev/ttyUSB0', 230400, timeout=0)
 ser_uno = serial.Serial('/dev/ttyUSB1', 230400, timeout=0)
 
 #camera process inicialize
