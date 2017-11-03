@@ -10,7 +10,7 @@ import struct
 
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-periodo = 0.2
+periodo = 0.05
 nEstados = 125
 frameRate = float(float(periodo)/float(nEstados))
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
