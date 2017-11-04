@@ -8,6 +8,12 @@ from subprocess import check_output
 import signal
 import struct
 
+import controle.analiticjacob as jacob
+import controle.backdq as bqd
+import controle.HamiltonOp as hop
+import controle.quatConj as qcon
+import controle.quatMult as qmult
+import controle.quaternion as quaternion
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 periodo = 0.05
@@ -24,6 +30,7 @@ faixa_erro_rotacao = 5
 
 #Parametros de DH
 L = np.array([4.5, 8.3, 6.45, 8.24, 0.], dtype=float)
+time_step = 0.001
 frank_dir = [[np.pi/2., 0., -np.pi/2., 0., 0., 0., 0.],[-L[1], 0., 0., 0., 0., 0., 0.],[-L[0], 0., 0., L[2], L[3], 0., L[4]],[0., np.pi/2., -np.pi/2., 0., 0., np.pi/2., 0.]]
 frank_esq = [[np.pi/2., 0., -np.pi/2., 0., 0., 0., 0.],[-L[1], 0., 0., 0., 0., 0., 0.],[L[0], 0., 0., L[2], L[3], 0., L[4]],[0., np.pi/2., -np.pi/2., 0., 0., np.pi/2., 0.]]
 mat1 = np.array(frank_dir, dtype=float)
@@ -32,6 +39,8 @@ mat2 = np.array(frank_esq, dtype=float)
 #AB_6
 ab6 = np.array([[0.,0.,1.,0.],[0.,1.,0.,-4.5],[-1.,0.,0.,-22.99],[0.,0.,0.,1.]], dtype=float)
 
+h1 = [math.cos(np.pi/4),0,math.sin(np.pi/4),0,0,0,0,0]
+h2 = [math.cos(np.pi/4),0,0,-math.sin(np.pi/4),0,0,0,0]
 
 #COMUNICATION +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #serial
@@ -54,128 +63,10 @@ udp.settimeout(0)
 
 
 #FUNCTIONS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-def fowa_cinematic(transform, MDH,N):
-	xi_1 = transform[:3, 0]
-	yi_1 = transform[:3, 1]
-	zi_1 = transform[:3, 2]
-	pk_1 = transform[:3, 3]
-	for i in range(N):
-		o = MDH[0, i]
-		d = MDH[0, i]
-		a = MDH[0, i]
-		s = MDH[0, i]
-		
-		xi = xi_1*math.cos(o) + yi_1*math.sin(o)
-		aux = np.cross(xi, zi_1)
-		zi = zi_1*math.cos(s) + aux*math.sin(s)
-		yi = np.cross(zi, xi)
-
-		pk = d*zi_1 + a*xi + pk_1
-
-		xi_1 = xi
-		yi_1 = yi
-		zi_1 = zi
-		pk_1 = pk
-	return [xi_1, yi_1, zi_1, pk_1]
-
-
-def back_cinematic(transform, MDH,N):
-	xi = transform[:3, 0]
-	yi = transform[:3, 1]
-	zi = transform[:3, 2]
-	pk = transform[:3, 3]
-	for i in range(6, N, -1):
-		o = MDH[0, i]
-		d = MDH[1, i]
-		a = MDH[2, i]
-		s = MDH[3, i]
-		
-		zi_1 = zi*math.cos(s) + yi*math.sin(s)
-		aux = np.cross(xi, zi_1)
-		xi_1 = xi*math.cos(o) + aux*math.sin(o)
-		yi_1 = np.cross(zi_1, xi_1)
-
-		pk_1 = -d*zi_1 - a*xi + pk
-
-		xi = xi_1
-		yi = yi_1
-		zi = zi_1
-		pk = pk_1
-	return [xi, yi, zi, pk]
-
-
-def invKinematic(A60):
-	#falta calcular o sinal dos angulos
-	#definir as constantes
-	l1 = L[0]
-	l2 = L[1]
-	l3 = L[2]
-	l4 = L[3]
-	l5 = L[4]
-	nx = A60[0]
-	ny = A60[1]
-	nz = A60[2]
-	sx = A60[0]
-	sy = A60[1]
-	sz = A60[2]
-	ax = A60[0]
-	ay = A60[1]
-	az = A60[2]
-	px = A60[0]
-	py = A60[1,3]
-	pz = A60[2,3]
-
-	#calculo de o4
-	x4 =((px + l5)*(px + l5) + py *py + pz*pz -l3*l3 -l4*l4 )/(2*l3*l4)
-	y4 = math.sqrt(1-x4*x4)
-	o4 = math.atan2(y4,x4)
-	o4 = math.round(o4,8)
-	s4 = math.sin(o4)
-	c4 = math.cos(o4)
-	#calculo de o5
-	xa = c4*l3 + l4
-	ya = s4*l3
-	oa = math.atan2(ya,xa)
-	oa = math.round(oa,8)
-
-	y5 = -pz
-	x5 = math.sqrt((px + l5)*(px + l5) + py*py)
-	o5 = math.atan2(y5,x5) - oa
-	o5 = math.round(o5,8)
-	c5 = math.cos(o5)
-	#calculo de o6
-	y6 = py
-	x6 = -px - l5
-	o6 = math.atan2(y6,x6)
-	aux = math.cos(o4+o5)*l3 + c5*l4
-	if(aux < 0):
-		o6 = o6 + ny.pi
-	s6 = math.sin(o6)
-	c6 = math.cos(o6)
-	#calculo de o2
-	x2 = s6*ax + c6*ay
-	y2 = math.sqrt(1 -x2*x2)
-	o2 = math.atan2(y2,x2)
-	s2 = math.sin(o2)
-	#calculo de o1
-	x1 = -s6*nx - c6*ny
-	y1 = -s6*sx - c6*sy
-	o1 = math.atan2(y1,x1)
-	o1 = math.round(o1,8)
-	if(s2 < 0):
-		o1 = o1 + ny.pi
-	#calculo de o3
-	x345 = az
-	y345 = c6*ax - s6*ay
-	o345 = math.atan2(y345,x456)
-	o345 = math.round(o345,8)
-	if(s2 < 0):
-		o345 = o345 + ny.pi
-	o3 = o345 - o4 - o5
-
-	return [o1,o2,o3,o4,o5,o6]
-
+def toQuat(pitch, roll, yaw):
+	cy = math.cos(yaw*0.5)
+	sy = math.sin(yaw*0.5)
+	
 
 def diferenca_angular(x):
 	if(bussola-x > 0):
@@ -253,6 +144,8 @@ t = 0.
 t_fps = 0.
 t_state = 0.
 t_inercial = 0.
+t_
+
 state = 0
 fps = 0
 perna = 1
@@ -264,6 +157,13 @@ rota_esq = 0
 rota_dir = 0
 obstaculo = 0
 pos_atual = []
+
+pos_anterior = np.array([0.]*8)
+K = np.eye(8)*0.000001
+Y = 0.01
+C8 = np.diag([1,-1,-1,-1, 1, -1, -1, -1])
+
+
 
 
 #LOOP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -301,7 +201,7 @@ try:
 	
 		#Change state
 		if t_state >= frameRate:
-			t_state = 0
+			t_state = 0.
 			if state+1 == nEstados:
 				perna = (perna+1)%2			
 				if math.fabs(rot_desvio) > 5:
@@ -334,28 +234,27 @@ try:
 
 		#FPS calculator
 		if t_fps > 1:
-			#os.system("clear")
-			#print ("fps:", fps)
-			t_fps = 0
+			os.system("clear")
+			print ("fps:", fps)
+			t_fps = 0.
 			fps = 0
 		fps += 1
 	
 
 		#posição read
-		'''if(perna):
+		if(perna):
 			buff2 = ser2.readline()
 		else:
 			buff2 = ser.readline()
-		'''
-		buff2 = ser.readline()
 		qua2 = []
 		if len(buff2):
 			qua2 = [int(c)-90 for c in buff2]
 		if len(qua2) == 10:
-			pos_atual = np.array(np.rint(qua2), dtype=np.int)
+			pos_anterior = pos_atual
+			pos_atual = np.array(np.rint(qua2), dtype=np.float)
 			#print (pos_atual)
 		ser.flushInput()
-		#ser2.flushInput()
+		ser2.flushInput()
 
 
 		#Inersial read (100hz)
@@ -375,6 +274,33 @@ try:
 			incli[1] =  qua[3] + 90
 			iner = np.array(np.rint(incli), dtype=np.uint8)
 		
+		#controle
+		pos_desejada = np.deg2rad([i-90. for i in data_pelv[state]])
+		if (state == 0):
+			pos_anterior = np.deg2rad(pos_desejada)
+		else:
+			pos_anterior = np.deg2rad([i-90. for i in data_pelv[state-1]])
+		pos_potenciometro = np.deg2rad(pos_atual)
+
+		dq = bqd.backqd(pos_desejada, L)
+		dq = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq), h2)
+		dq_1 = bqd.backqd(pos_anterior, L)
+		dq_1 = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_1), h2)
+		Hd = hop.dualHamiltonOp(dq, 0)
+		Ja = jacob.analiticjacob(pos_desejada, L)
+		N = np.dot(np.dot(Hd, C8), Ja)
+		Np = np.dot(N.T, np.linalg.inv(np.dot(N, N.T)+(Y*Y*np.eye(8))))
+		dq_pot = bqd.backqd(pos_potenciometro, L)
+		dq_pot = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_pot), h2)
+		dq_pot[:4] = quaternion.rad2quat(np.deg2rad[float(iner[1]),float(iner[0]),0.])
+		e = [1., 0., 0., 0., 0., 0., 0., 0.] - qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), dq)
+		hd_ = (dq - dq_1)/dTime
+		vec = qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), hd_)
+		do = np.dot(Np, np.dot(K,e.T) - vec.T)
+		od = do*dTime
+
+		pos_controle = pos_atual[:6] + np.rad2deg(od)
+		#print (pos_controle -- [i-90 for i in data_pelv[state]])
 
 		#Low level write (bound rate)
 		if perna:
