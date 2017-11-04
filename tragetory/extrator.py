@@ -276,7 +276,7 @@ try:
 			iner = np.array(np.rint(incli), dtype=np.uint8)
 		
 		#controle
-		pos_desejada = np.deg2rad([i-90. for i in data_pelv[state][:6]])
+		'''pos_desejada = np.deg2rad([i-90. for i in data_pelv[state][:6]])
 		if (state == 0):
 			pos_anterior = np.deg2rad(pos_desejada)
 		else:
@@ -306,7 +306,7 @@ try:
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
 		pos_controle = [int(i)+90 for i in pos_controle]
 		print ("controle - ", pos_controle)
-
+		'''
 
 		#Low level write (bound rate)
 		if perna:
@@ -326,9 +326,9 @@ try:
 				data_foot[state][5] = 90
 			'''
 			#print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
-			#pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			send_pelv = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			#send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
-			send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			#send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_test, send_pelv)
 			ser.write(struct.pack('>10B', *(send_test.tolist())))
@@ -352,9 +352,9 @@ try:
 				data_foot[state][5] = 90
 			'''
 			#print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
-			#pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			send_pelv = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			#send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
-			send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			#send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_pelv, send_test)
 			ser.write(struct.pack('>10B', *(send_pelv.tolist())))
