@@ -298,7 +298,7 @@ try:
 		od = do*dTime
 		
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
-		print (np.rad2deg(hd_))
+		print (np.rad2deg(od))
 
 		#Low level write (bound rate)
 		if perna:
