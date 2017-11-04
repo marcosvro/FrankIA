@@ -294,14 +294,17 @@ try:
 		e = np.array([1., 0., 0., 0., 0., 0., 0., 0.]) - qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), dq)
 		hd_ = (dq - dq_1)/dTime
 		vec = np.array(qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), hd_))
-		do = np.dot(Np, np.dot(K,e.T) - vec.T)
+		aux = np.dot(K,e.T) - vec.T
+		do = np.dot(Np, aux)
 		od = do*dTime
 		
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
-		print ("\nNp - ", Np)
+		'''print ("\nNp - ", Np)
 		print ("vec - ",np.rad2deg(vec.T))
 		print ("K - ", K)
 		print ("e - ", e.T)
+		'''
+		print ("\n"aux, do)
 		print ("controle - ", pos_controle)
 
 		#Low level write (bound rate)
