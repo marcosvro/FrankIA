@@ -281,7 +281,7 @@ try:
 		pos_potenciometro = np.deg2rad(pos_atual)
 
 		dq = bdq.backdq(pos_desejada, L)
-		dq = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq), h2)
+		dq = np.array(qmult.dualQuatMult(qmult.dualQuatMult(h1, dq), h2))
 		dq_1 = bdq.backdq(pos_anterior, L)
 		dq_1 = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_1), h2)
 		Hd = hop.dualHamiltonOp(dq, 0)
