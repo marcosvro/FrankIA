@@ -126,7 +126,7 @@ if (qua[0]+90):
 	bussola = qua[1] + 90 + 180
 else:
 	bussola = qua[1] + 90
-
+print ("ok!")
 
 #adjust joints direction
 for i in range(nEstados):
