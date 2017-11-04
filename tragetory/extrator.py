@@ -273,11 +273,11 @@ try:
 			iner = np.array(np.rint(incli), dtype=np.uint8)
 		
 		#controle
-		pos_desejada = np.deg2rad([i-90. for i in data_pelv[state]])
+		pos_desejada = np.deg2rad([i-90. for i in data_pelv[state][:6]])
 		if (state == 0):
 			pos_anterior = np.deg2rad(pos_desejada)
 		else:
-			pos_anterior = np.deg2rad([i-90. for i in data_pelv[state-1]])
+			pos_anterior = np.deg2rad([i-90. for i in data_pelv[state-1][:6]])
 		pos_potenciometro = np.deg2rad(pos_atual[1:7])
 
 		dq = bdq.backdq(pos_desejada, L)
