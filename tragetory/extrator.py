@@ -279,7 +279,8 @@ try:
 		else:
 			pos_anterior = np.deg2rad([i-90. for i in data_pelv[state-1][:6]])
 		pos_potenciometro = np.deg2rad(pos_atual[1:7])
-
+		
+		pos_potenciometro = np.array([0., -np.pi/2., 0., 0., 0., 0.])
 		pos_desejada = np.array([0.017,0.40,0.43, 0.03, -0.03, 0.])
 		pos_anterior = np.array([0.017,0.40,0.43, 0.03, -0.03, 0.])
 		dq = bdq.backdq(pos_desejada, L)
@@ -296,7 +297,7 @@ try:
 		e = np.array([1., 0., 0., 0., 0., 0., 0., 0.]) - qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), dq)
 		hd_ = (dq - dq_1)/dTime
 		vec = np.array(qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), hd_))
-		aux = np.dot(K,e.T)
+		aux = np.dot(e.T,K)
 		aux2 = aux - vec.T
 		do = np.dot(Np, aux2)
 		od = do*dTime
