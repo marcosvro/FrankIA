@@ -255,7 +255,7 @@ try:
 			incli[1] =  qua[3] + 90
 			iner = np.array(np.rint(incli), dtype=np.uint8)
 			print (iner)
-			
+		ser_uno.flushInput()
 		
 		#controle
 		'''pos_desejada = np.deg2rad([i-90. for i in data_pelv[state][:6]])
