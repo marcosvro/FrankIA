@@ -288,6 +288,7 @@ try:
 		Hd = hop.dualHamiltonOp(dq, 0)
 		Ja = jacob.analiticjacob(pos_desejada, L)
 		aux = np.dot(Hd, C8)
+		print(Ja)
 		N = np.dot(aux, Ja)
 		Np = np.dot(N.T, np.linalg.inv(np.dot(N, N.T)+(Y*Y*np.eye(8))))
 		dq_pot = bdq.backdq(pos_potenciometro, L)
