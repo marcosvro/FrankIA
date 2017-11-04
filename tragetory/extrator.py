@@ -283,9 +283,7 @@ try:
 			pos_anterior = np.deg2rad([i-90. for i in data_pelv[state-1][:6]])
 		pos_potenciometro = np.deg2rad(pos_atual[1:7])
 		
-		pos_potenciometro = np.array([0., -np.pi/2., 0., 0., 0., 0.])
-		pos_desejada = np.array([0.017,0.40,0.43, 0.03, -0.03, 0.])
-		pos_anterior = np.array([0.017,0.40,0.43, 0.03, -0.03, 0.])
+	
 		dq = bdq.backdq(pos_desejada, L)
 		dq = np.array(qmult.dualQuatMult(qmult.dualQuatMult(h1, dq), h2))
 		dq_1 = bdq.backdq(pos_anterior, L)
@@ -296,7 +294,7 @@ try:
 		Np = np.dot(N.T, np.linalg.inv(np.dot(N, N.T)+(Y*Y*np.eye(8))))
 		dq_pot = bdq.backdq(pos_potenciometro, L)
 		dq_pot = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_pot), h2)
-		#dq_pot[:4] = quaternion.rad2quat(np.deg2rad([float(iner[1]),float(iner[0]),0.]))
+		dq_pot[:4] = quaternion.rad2quat(np.deg2rad([float(iner[1]),float(iner[0]),0.]))
 		e = np.array([1., 0., 0., 0., 0., 0., 0., 0.]) - qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), dq)
 		hd_ = (dq - dq_1)/dTime
 		vec = np.array(qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), hd_))
@@ -306,12 +304,6 @@ try:
 		od = do*dTime
 		
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
-		
-		print ("\n",aux)
-		print(e)
-		print(Np.T)
-		print(aux2)
-		print(do)
 		print ("controle - ", pos_controle)
 
 		#Low level write (bound rate)
