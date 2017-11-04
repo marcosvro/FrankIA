@@ -233,8 +233,8 @@ try:
 
 		#FPS calculator
 		if t_fps > 1:
-			os.system("clear")
-			print ("fps:", fps)
+			#os.system("clear")
+			#print ("fps:", fps)
 			t_fps = 0.
 			fps = 0
 		fps += 1
@@ -298,7 +298,7 @@ try:
 		od = do*dTime
 
 		pos_controle = pos_atual[:6] + np.rad2deg(od)
-		#print (pos_controle -- [i-90 for i in data_pelv[state]])
+		print (pos_controle)
 
 		#Low level write (bound rate)
 		if perna:
@@ -319,7 +319,7 @@ try:
 			'''
 			#print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
 			#pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
-			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_test, send_pelv)
 			ser.write(struct.pack('>10B', *(send_test.tolist())))
