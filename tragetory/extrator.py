@@ -296,9 +296,9 @@ try:
 		vec = np.array(qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), hd_))
 		do = np.dot(Np, np.dot(K,e.T) - vec.T)
 		od = do*dTime
-
+		
 		pos_controle = pos_atual[:6] + np.rad2deg(od)
-		print (pos_controle)
+		print (pos_atual[:6])
 
 		#Low level write (bound rate)
 		if perna:
