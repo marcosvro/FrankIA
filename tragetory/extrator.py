@@ -291,7 +291,7 @@ try:
 		dq_pot = bdq.backdq(pos_potenciometro, L)
 		dq_pot = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_pot), h2)
 		dq_pot[:4] = quaternion.rad2quat(np.deg2rad([float(iner[1]),float(iner[0]),0.]))
-		e = [1., 0., 0., 0., 0., 0., 0., 0.] - qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), dq)
+		e = np.array([1., 0., 0., 0., 0., 0., 0., 0.]) - qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), dq)
 		hd_ = (dq - dq_1)/dTime
 		vec = qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), hd_)
 		do = np.dot(Np, np.dot(K,e.T) - vec.T)
