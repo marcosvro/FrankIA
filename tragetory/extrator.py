@@ -305,6 +305,7 @@ try:
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
 		
 		print ("\n",aux)
+		print(e)
 		print(Np.T)
 		print(aux2)
 		print(do)
