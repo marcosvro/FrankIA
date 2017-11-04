@@ -271,8 +271,8 @@ try:
 			else:
 				incli[2] = qua[1] + 90
 			rot_real = incli[2]
-			incli[0] =  qua[2] + 90
-			incli[1] =  qua[3] + 90
+			incli[0] =  qua[2] + pos_atual[4]
+			incli[1] =  qua[3] + pos_atual[5]
 			iner = np.array(np.rint(incli), dtype=np.uint8)
 		
 		#controle
@@ -285,15 +285,15 @@ try:
 		
 	
 		dq = bdq.backdq(pos_desejada, L)
-		dq = np.array(qmult.dualQuatMult(qmult.dualQuatMult(h1, dq), h2))
+		#dq = np.array(qmult.dualQuatMult(qmult.dualQuatMult(h1, dq), h2))
 		dq_1 = bdq.backdq(pos_anterior, L)
-		dq_1 = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_1), h2)
+		#dq_1 = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_1), h2)
 		Hd = hop.dualHamiltonOp(dq, 0)
 		Ja = jacob.analiticjacob(pos_potenciometro, L)
 		N = np.dot(np.dot(Hd, C8), Ja)
 		Np = np.dot(N.T, np.linalg.inv(np.dot(N, N.T)+(Y*Y*np.eye(8))))
 		dq_pot = bdq.backdq(pos_potenciometro, L)
-		dq_pot = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_pot), h2)
+		#dq_pot = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_pot), h2)
 		dq_pot[:4] = quaternion.rad2quat(np.deg2rad([float(iner[1]),float(iner[0]),0.]))
 		e = np.array([1., 0., 0., 0., 0., 0., 0., 0.]) - qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), dq)
 		hd_ = (dq - dq_1)/dTime
@@ -326,8 +326,8 @@ try:
 			'''
 			#print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
 			#pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
-			#send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
-			send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			#send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_test, send_pelv)
 			ser.write(struct.pack('>10B', *(send_test.tolist())))
@@ -352,8 +352,8 @@ try:
 			'''
 			#print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
 			#pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
-			#send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
-			send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			#send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_pelv, send_test)
 			ser.write(struct.pack('>10B', *(send_pelv.tolist())))
