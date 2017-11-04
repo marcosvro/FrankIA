@@ -216,8 +216,8 @@ try:
 
 		#FPS calculator
 		if t_fps > 1:
-			os.system("clear")
-			print ("fps:", fps)
+			#os.system("clear")
+			#print ("fps:", fps)
 			t_fps = 0.
 			fps = 0
 		fps += 1
@@ -254,7 +254,7 @@ try:
 			incli[0] =  qua[2] + 90
 			incli[1] =  qua[3] + 90
 			iner = np.array(np.rint(incli), dtype=np.uint8)
-			#print (iner)
+			print (iner)
 			
 		
 		#controle
