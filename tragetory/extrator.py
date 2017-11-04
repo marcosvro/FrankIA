@@ -81,6 +81,9 @@ def diferenca_angular(x):
 			return 360 - dif
 		else:
 			return dif * -1
+
+def me_ajuda_sinho(vet, mat):
+	return [sum(mat[:mat.shape[0],i]*vet) for i in range(mat.shape[1])]
 		
 
 #SETUP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -299,7 +302,7 @@ try:
 		vec = np.array(qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), hd_))
 		aux = np.dot(e,K)
 		aux2 = aux - vec
-		do = aux2.dot(Np.T)
+		do = me_ajuda_sinho(aux2, Np.T)
 		od = do*dTime
 		
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
