@@ -305,6 +305,7 @@ try:
 		
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
 		print ("controle - ", pos_controle)
+		pos_controle = [i+90 for i in pos_controle]
 
 		#Low level write (bound rate)
 		if perna:
@@ -325,7 +326,8 @@ try:
 			'''
 			#print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
 			#pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
-			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			#send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_test, send_pelv)
 			ser.write(struct.pack('>10B', *(send_test.tolist())))
@@ -350,7 +352,8 @@ try:
 			'''
 			#print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
 			#pelv_iner = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
-			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			#send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_pelv, send_test)
 			ser.write(struct.pack('>10B', *(send_pelv.tolist())))
