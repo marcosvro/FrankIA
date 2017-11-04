@@ -75,4 +75,4 @@ def rad2quat(v):
 
     norma = math.sqrt(r[0]**2 + r[1]**2 + r[2]**2 + r[3]**2)
     r = r/norma
-    return r
+    return r.tolist()
