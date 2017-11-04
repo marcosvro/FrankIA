@@ -9,7 +9,7 @@ import signal
 import struct
 
 import controle.analiticjacob as jacob
-import controle.backdq as bqd
+import controle.backdq as bdq
 import controle.HamiltonOp as hop
 import controle.quatConj as qcon
 import controle.quatMult as qmult
@@ -281,15 +281,15 @@ try:
 			pos_anterior = np.deg2rad([i-90. for i in data_pelv[state-1]])
 		pos_potenciometro = np.deg2rad(pos_atual)
 
-		dq = bqd.backqd(pos_desejada, L)
+		dq = bdq.backdq(pos_desejada, L)
 		dq = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq), h2)
-		dq_1 = bqd.backqd(pos_anterior, L)
+		dq_1 = bdq.backdq(pos_anterior, L)
 		dq_1 = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_1), h2)
 		Hd = hop.dualHamiltonOp(dq, 0)
 		Ja = jacob.analiticjacob(pos_desejada, L)
 		N = np.dot(np.dot(Hd, C8), Ja)
 		Np = np.dot(N.T, np.linalg.inv(np.dot(N, N.T)+(Y*Y*np.eye(8))))
-		dq_pot = bqd.backqd(pos_potenciometro, L)
+		dq_pot = bdq.backdq(pos_potenciometro, L)
 		dq_pot = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_pot), h2)
 		dq_pot[:4] = quaternion.rad2quat(np.deg2rad[float(iner[1]),float(iner[0]),0.])
 		e = [1., 0., 0., 0., 0., 0., 0., 0.] - qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), dq)
