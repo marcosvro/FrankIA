@@ -155,7 +155,7 @@ rot_real = 0
 rota_esq = 0
 rota_dir = 0
 obstaculo = 0
-pos_atual = []
+pos_atual = [i-90 for i in data_pelv[state]]
 
 pos_anterior = np.array([0.]*8)
 K = np.eye(8)*0.000001
@@ -249,7 +249,6 @@ try:
 		if len(buff2):
 			qua2 = [int(c)-90 for c in buff2]
 		if len(qua2) == 10:
-			pos_anterior = pos_atual
 			pos_atual = np.array(np.rint(qua2), dtype=np.float)
 			#print (pos_atual)
 		ser.flushInput()
