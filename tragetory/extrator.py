@@ -158,7 +158,7 @@ obstaculo = 0
 pos_atual = [i-90 for i in data_pelv[state]]
 
 pos_anterior = np.array([0.]*8)
-K = np.eye(8)*0.000001
+K = np.eye(8)*0.0000008
 Y = 0.01
 C8 = np.diag([1,-1,-1,-1, 1, -1, -1, -1])
 
@@ -298,7 +298,7 @@ try:
 		od = do*dTime
 		
 		pos_controle = pos_atual[:6] + np.rad2deg(od)
-		print (np.rad2deg(od))
+		print (np.rad2deg(do))
 
 		#Low level write (bound rate)
 		if perna:
