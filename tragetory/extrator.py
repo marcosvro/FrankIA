@@ -298,7 +298,8 @@ try:
 		od = do*dTime
 		
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
-		print ("\n vec - ",np.rad2deg(vec.T))
+		print ("\nNp - ", Np)
+		print ("vec - ",np.rad2deg(vec.T))
 		print ("K - ", K)
 		print ("e - ", e.T)
 		print ("controle - ", pos_controle)
