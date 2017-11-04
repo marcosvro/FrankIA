@@ -278,7 +278,7 @@ try:
 			pos_anterior = np.deg2rad(pos_desejada)
 		else:
 			pos_anterior = np.deg2rad([i-90. for i in data_pelv[state-1]])
-		pos_potenciometro = np.deg2rad(pos_atual)
+		pos_potenciometro = np.deg2rad(pos_atual[1:7])
 
 		dq = bdq.backdq(pos_desejada, L)
 		dq = np.array(qmult.dualQuatMult(qmult.dualQuatMult(h1, dq), h2))
@@ -297,7 +297,7 @@ try:
 		do = np.dot(Np, np.dot(K,e.T) - vec.T)
 		od = do*dTime
 		
-		pos_controle = pos_atual[:6] + np.rad2deg(od)
+		pos_controle = pos_atual[1:7] + np.rad2deg(od)
 		print (np.rad2deg(hd_))
 
 		#Low level write (bound rate)
