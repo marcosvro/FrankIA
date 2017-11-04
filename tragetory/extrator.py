@@ -322,9 +322,9 @@ try:
 			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_test, send_pelv)
-			#ser.write(struct.pack('>10B', *(send_test.tolist())))
+			ser.write(struct.pack('>10B', *(send_test.tolist())))
 			#ser2.write(struct.pack('>10B', *(send_pelv.tolist())))
-			ser.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
+			#ser.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
 			ser2.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))		
 		else:
 			'''
@@ -348,9 +348,9 @@ try:
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_pelv, send_test)
 			ser.write(struct.pack('>10B', *(send_pelv.tolist())))
-			ser2.write(struct.pack('>10B', *(send_test.tolist())))
+			#ser2.write(struct.pack('>10B', *(send_test.tolist())))
 			#ser.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
-			#ser2.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
+			ser2.write(struct.pack('>10B', 255, 90, 90, 90, 90, 90, 90, 90, 90, 254))
 				
 
 		#Camera read (30hz)
