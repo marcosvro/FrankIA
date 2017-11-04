@@ -220,7 +220,7 @@ try:
 			print ("fps:", fps)
 			t_fps = 0.
 			fps = 0
-		fps += 1
+		
 	
 
 		#posição read
@@ -255,6 +255,7 @@ try:
 			incli[1] =  qua[3] + pos_atual[5]
 			iner = np.array(np.rint(incli), dtype=np.uint8)
 			#print (iner)
+			fps += 1
 		
 		#controle
 		'''pos_desejada = np.deg2rad([i-90. for i in data_pelv[state][:6]])
