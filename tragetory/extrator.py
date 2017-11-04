@@ -83,7 +83,7 @@ def diferenca_angular(x):
 			return dif * -1
 
 def me_ajuda_sinho(vet, mat):
-	return [sum(mat[:mat.shape[0],i]*vet) for i in range(mat.shape[1])]
+	return np.array([sum(mat[:mat.shape[0],i]*vet) for i in range(mat.shape[1])])
 		
 
 #SETUP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
