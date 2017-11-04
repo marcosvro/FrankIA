@@ -288,7 +288,7 @@ try:
 		dq_1 = bdq.backdq(pos_anterior, L)
 		dq_1 = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_1), h2)
 		Hd = hop.dualHamiltonOp(dq, 0)
-		Ja = jacob.analiticjacob(pos_desejada, L)
+		Ja = jacob.analiticjacob(pos_potenciometro, L)
 		N = np.dot(np.dot(Hd, C8), Ja)
 		Np = np.dot(N.T, np.linalg.inv(np.dot(N, N.T)+(Y*Y*np.eye(8))))
 		dq_pot = bdq.backdq(pos_potenciometro, L)
