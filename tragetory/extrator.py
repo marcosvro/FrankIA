@@ -255,7 +255,6 @@ try:
 			incli[1] =  qua[3] + 90
 			iner = np.array(np.rint(incli), dtype=np.uint8)
 			print (iner)
-		ser_uno.flushInput()
 		
 		#controle
 		'''pos_desejada = np.deg2rad([i-90. for i in data_pelv[state][:6]])
@@ -308,8 +307,8 @@ try:
 				data_foot[state][5] = 90
 			'''
 			#print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
-			send_pelv = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
-			#send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			#send_pelv = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			#send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_test, send_pelv)
@@ -334,8 +333,8 @@ try:
 				data_foot[state][5] = 90
 			'''
 			#print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
-			send_pelv = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
-			#send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			#send_pelv = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			#send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_pelv, send_test)
