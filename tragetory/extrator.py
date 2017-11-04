@@ -298,7 +298,7 @@ try:
 		vec = np.array(qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), hd_))
 		aux = np.dot(K,e.T)
 		aux2 = aux - vec.T
-		do = np.dot(Np, aux)
+		do = np.dot(Np, aux2)
 		od = do*dTime
 		
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
