@@ -303,8 +303,8 @@ try:
 		
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
 		
-		print ("\n",dq)
-		print(Ja)
+		print ("\n",Np)
+		#print(Ja)
 		print ("controle - ", pos_controle)
 
 		#Low level write (bound rate)
