@@ -251,8 +251,8 @@ try:
 			else:
 				incli[2] = qua[1] + 90
 			rot_real = incli[2]
-			incli[0] =  qua[2] + 90
-			incli[1] =  qua[3] + 90
+			incli[0] =  qua[2] + pos_atual[4]
+			incli[1] =  qua[3] + pos_atual[5]
 			iner = np.array(np.rint(incli), dtype=np.uint8)
 			print (iner)
 		
