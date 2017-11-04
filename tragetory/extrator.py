@@ -305,7 +305,7 @@ try:
 		
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
 		print ("controle - ", pos_controle)
-		pos_controle = [i+90 for i in pos_controle]
+		pos_controle = [int(i)+90 for i in pos_controle]
 
 		#Low level write (bound rate)
 		if perna:
