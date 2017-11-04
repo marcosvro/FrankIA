@@ -285,16 +285,16 @@ try:
 		
 	
 		dq = np.array(bdq.backdq(pos_desejada, L))
-		#dq = np.array(qmult.dualQuatMult(qmult.dualQuatMult(h1, dq), h2))
+		dq = np.array(qmult.dualQuatMult(qmult.dualQuatMult(h1, dq), h2))
 		dq_1 = np.array(bdq.backdq(pos_anterior, L))
-		#dq_1 = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_1), h2)
+		dq_1 = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_1), h2)
 		Hd = hop.dualHamiltonOp(dq, 0)
 		Ja = jacob.analiticjacob(pos_potenciometro, L)
 		N = np.dot(np.dot(Hd, C8), Ja)
 		Np = np.dot(N.T, np.linalg.inv(np.dot(N, N.T)+(Y*Y*np.eye(8))))
 		dq_pot = bdq.backdq(pos_potenciometro, L)
-		#dq_pot = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_pot), h2)
-		dq_pot[:4] = quaternion.rad2quat(np.deg2rad([float(iner[1]),float(iner[0]),0.]))
+		dq_pot = qmult.dualQuatMult(qmult.dualQuatMult(h1, dq_pot), h2)
+		#dq_pot[:4] = quaternion.rad2quat(np.deg2rad([float(iner[1]),float(iner[0]),0.]))
 		e = np.array([1., 0., 0., 0., 0., 0., 0., 0.]) - qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), dq)
 		hd_ = (dq - dq_1)/dTime
 		vec = np.array(qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), hd_))
