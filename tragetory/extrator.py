@@ -307,6 +307,7 @@ try:
 		pos_controle = [int(i)+90 for i in pos_controle]
 		print ("controle - ", pos_controle)
 
+
 		#Low level write (bound rate)
 		if perna:
 			'''
