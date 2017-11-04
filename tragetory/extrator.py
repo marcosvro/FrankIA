@@ -144,7 +144,6 @@ t = 0.
 t_fps = 0.
 t_state = 0.
 t_inercial = 0.
-t_
 
 state = 0
 fps = 0
