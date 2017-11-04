@@ -301,7 +301,7 @@ try:
 		print ("\n vec - ",np.rad2deg(vec.T))
 		print ("K - ", K)
 		print ("e - ", e.T)
-		print ("controle - " pos_controle)
+		print ("controle - ", pos_controle)
 
 		#Low level write (bound rate)
 		if perna:
