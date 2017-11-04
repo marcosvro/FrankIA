@@ -293,7 +293,7 @@ try:
 		dq_pot[:4] = quaternion.rad2quat(np.deg2rad([float(iner[1]),float(iner[0]),0.]))
 		e = np.array([1., 0., 0., 0., 0., 0., 0., 0.]) - qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), dq)
 		hd_ = (dq - dq_1)/dTime
-		vec = qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), hd_)
+		vec = np.array(qmult.dualQuatMult(qcon.dualQuatConj(dq_pot), hd_))
 		do = np.dot(Np, np.dot(K,e.T) - vec.T)
 		od = do*dTime
 
