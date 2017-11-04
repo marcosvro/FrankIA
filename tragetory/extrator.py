@@ -298,7 +298,9 @@ try:
 		od = do*dTime
 		
 		pos_controle = pos_atual[1:7] + np.rad2deg(od)
-		print (np.rad2deg(od))
+		print ("\n vec - ",np.rad2deg(vec.T))
+		print ("K - ", K)
+		print ("e - ", e.T)
 
 		#Low level write (bound rate)
 		if perna:
