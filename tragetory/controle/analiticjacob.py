@@ -1,6 +1,6 @@
 import math
 
-def a(theta,L):
+def analiticjacob(theta,L):
     s2 = math.sqrt(2)
     o1 = theta[0]
     o2 = theta[1]
