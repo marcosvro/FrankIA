@@ -304,7 +304,7 @@ try:
 		print ("K - ", K)
 		print ("e - ", e.T)
 		'''
-		print ("\n"aux, do)
+		print ("\n",aux, do)
 		print ("controle - ", pos_controle)
 
 		#Low level write (bound rate)
