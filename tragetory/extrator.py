@@ -169,26 +169,6 @@ C8 = np.diag([1,-1,-1,-1, 1, -1, -1, -1])
 
 
 #LOOP +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-#test Juan -------------------------------------------------------------------------------
-while 1:
-	break
-	dtime = time.time() - start
-	start = time.time()
-	t_fps += dtime
-
-	if(t_fps >= 1.):
-		os.system("clear")
-		print ("fps: ", fps)
-		t_fps = 0.
-		fps = 0
-	fps = fps + 1
-	#fowa_cinematic(np.eye(4), mat1,6)
-	T = back_cinematic(np.eye(4),mat2,0)
-	invKinematic(T)
-
-#main loop
-
 try:
 	while 1:
 		send_test=[]
@@ -274,6 +254,7 @@ try:
 			incli[0] =  qua[2] + pos_atual[4]
 			incli[1] =  qua[3] + pos_atual[5]
 			iner = np.array(np.rint(incli), dtype=np.uint8)
+			print (iner)
 		
 		#controle
 		'''pos_desejada = np.deg2rad([i-90. for i in data_pelv[state][:6]])
