@@ -299,13 +299,9 @@ try:
 		do = np.dot(Np, aux)
 		od = do*dTime
 		
-		pos_controle = pos_atual[1:7] + np.rad2deg(od)
-		'''print ("\nNp - ", Np)
-		print ("vec - ",np.rad2deg(vec.T))
-		print ("K - ", K)
-		print ("e - ", e.T)
-		'''
-		print ("\n",aux, aux2)
+		
+		print ("\n",pos_desejada)
+		print (dq)
 		print ("controle - ", pos_controle)
 
 		#Low level write (bound rate)
