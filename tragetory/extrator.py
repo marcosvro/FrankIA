@@ -16,7 +16,7 @@ import controle.quatMult as qmult
 import controle.quaternion as quaternion
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-periodo = 1
+periodo = 0.5
 nEstados = 125
 frameRate = float(float(periodo)/float(nEstados))
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
@@ -243,7 +243,7 @@ try:
 		if len(buff):
 			qua = [float(int(c)-90) for c in buff]
 		else:
-			qua = []	
+			qua = []
 		if len(qua) == 6:
 			flag = qua[0]+90
 			if flag:
@@ -251,8 +251,8 @@ try:
 			else:
 				incli[2] = qua[1] + 90
 			rot_real = incli[2]
-			incli[0] =  qua[2] + pos_atual[4]
-			incli[1] =  qua[3] + pos_atual[5]
+			incli[0] =  qua[2] + pos_atual[4] + 90
+			incli[1] =  qua[3] + pos_atual[5] + 90
 			iner = np.array(np.rint(incli), dtype=np.uint8)
 			print (iner)
 		
@@ -307,8 +307,8 @@ try:
 				data_foot[state][5] = 90
 			'''
 			#print (data_foot[state][5], " -- vire ", rot_desvio, " graus")
-			#send_pelv = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
-			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			send_pelv = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			#send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			#send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_test, send_pelv)
@@ -333,8 +333,8 @@ try:
 				data_foot[state][5] = 90
 			'''
 			#print (data_pelv[state][5], " -- vire ", rot_desvio, " graus")
-			#send_pelv = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
-			send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
+			send_pelv = np.array([255]+data_pelv[state][:3].tolist()+iner[:2].tolist()+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
+			#send_pelv = np.array([255]+data_pelv[state].tolist()+[254], dtype=np.uint8)
 			#send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_pelv, send_test)
