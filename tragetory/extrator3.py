@@ -14,7 +14,7 @@ from ikpy import plot_utils
 deslocamentoZpes = 2.5
 deslocamentoXpes = 0.
 deslocamentoYpes = 0.
-deslocamentoYpelves = 2.
+deslocamentoYpelves = 1.7
 
 
 
