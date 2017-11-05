@@ -252,8 +252,8 @@ try:
 			else:
 				incli[2] = qua[1] + 90
 			rot_real = incli[2]
-			incli[0] =  90 + qua[2] + pos_atual[4]
-			incli[1] =  90 + qua[3] + pos_atual[5]
+			incli[0] =  90 + qua[2]# + pos_atual[4]
+			incli[1] =  90 + qua[3]# + pos_atual[5]
 			iner = np.array(np.rint(incli), dtype=np.uint8)
 			print (iner)
 		
@@ -316,7 +316,7 @@ try:
 			#ser.write(struct.pack('>10B', *(send_test.tolist())))
 			#ser2.write(struct.pack('>10B', *(send_pelv.tolist())))
 			ser.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))
-			ser2.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))		
+			ser2.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))	
 		else:
 			'''
 			if rota_dir == 1:
