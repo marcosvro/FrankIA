@@ -16,7 +16,7 @@ import controle.quatMult as qmult
 import controle.quaternion as quaternion
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-periodo = 3
+periodo = 0.2
 nEstados = 125
 frameRate = float(float(periodo)/float(nEstados))
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
