@@ -17,6 +17,7 @@ deslocamentoYpes = 0.
 deslocamentoYpelves = 1.8
 
 
+
 periodo = 20.
 nEstados = 125
 dMovx = deslocamentoXpes/nEstados
