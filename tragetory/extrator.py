@@ -134,8 +134,8 @@ for i in range(nEstados):
 	data_foot[i][0] = (data_foot[i][0]-90)*-1 + 90
 	data_pelv[i][2] = (data_pelv[i][2]-90)*-1 + 90
 	data_foot[i][2] = (data_foot[i][2]-90)*-1 + 90
-	data_pelv[i][3] = data_pelv[i][3] - 4
-	data_foot[i][3] = data_foot[i][3] - 4
+	data_pelv[i][3] = data_pelv[i][3] - 2
+	data_foot[i][3] = data_foot[i][3] - 2
 	#data_pelv[i][1] = 128
 	data_foot[i][4] = 90
 	#data_foot[i][4] = (data_foot[i][4]-90)*-1 + 90
