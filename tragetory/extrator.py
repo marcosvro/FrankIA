@@ -16,7 +16,7 @@ import controle.quatMult as qmult
 import controle.quaternion as quaternion
 
 #CONFIGS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-periodo = 0.5
+periodo = 0.2
 nEstados = 125
 frameRate = float(float(periodo)/float(nEstados))
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
@@ -216,11 +216,11 @@ try:
 
 		#FPS calculator
 		if t_fps > 1:
-			#os.system("clear")
-			#print ("fps:", fps)
+			os.system("clear")
+			print ("fps:", fps)
 			t_fps = 0.
 			fps = 0
-		fps += 1
+		
 	
 
 		#posição read
@@ -233,6 +233,7 @@ try:
 			qua2 = [int(c)-90 for c in buff2]
 		if len(qua2) == 10:
 			pos_atual = np.array(np.rint(qua2), dtype=np.float)
+			fps += 1
 			#print (pos_atual)
 		ser.flushInput()
 		ser2.flushInput()
@@ -251,10 +252,10 @@ try:
 			else:
 				incli[2] = qua[1] + 90
 			rot_real = incli[2]
-			incli[0] =  qua[2] + pos_atual[4] + 90
-			incli[1] =  qua[3] + pos_atual[5] + 90
+			incli[0] =  90 + qua[2] + pos_atual[4]
+			incli[1] =  90 + qua[3] + pos_atual[5]
 			iner = np.array(np.rint(incli), dtype=np.uint8)
-			print (iner)
+			#print (iner)
 		
 		#controle
 		'''pos_desejada = np.deg2rad([i-90. for i in data_pelv[state][:6]])
