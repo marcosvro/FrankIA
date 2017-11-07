@@ -4,23 +4,23 @@ import signal
 import RPi.GPIO as GPIO
 import time
 
-PIN_OUT1 = 18	# Pino do primeiro STM32 ------ Pino 4 do STM32
-PIN_OUT2 = 19	# Pino do segundo  STM32 ------ Pino 4 do STM32
+PIN_RESET = 18	# Pino do primeiro STM32 ------ Pino 4 do STM32
 PIN_IN = 20		# Pino de condição de inicio
 LED = 21		# Pino do LED
 TEMPO = 5		# Tempo de espera em segundos
-
+TEMPO_STM = 0.2 # Tempo que espera até o STM32 resetar
 
 while True:
 	# Configuração inicial
 	GPIO.setmode(GPIO.BCM)
-	GPIO.setup(PIN_OUT1, GPIO.OUT)
-	GPIO.setup(PIN_OUT2, GPIO.OUT)
+	GPIO.setup(PIN_RESET, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
 	GPIO.setup(LED, GPIO.OUT)
-	GPIO.setup(PIN_IN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+	GPIO.setup(PIN_IN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 	# Reseta os STM32
-	GPIO.output(PIN_OUT1, GPIO.HIGH)	# TODO Verificar se o STM32 reseta em alto ou baixo
-	GPIO.output(PIN_OUT2, GPIO.HIGH)
+	GPIO.output(PIN_RESET, GPIO.HIGH)
+	time.sleep(TEMPO_STM)	#200 ms
+	# Liga os STM32
+	GPIO.output(PIN_RESET, GPIO.LOW)
 
 	# Espera apertar o botão ON
 	while not GPIO.input(PIN_IN):
@@ -46,8 +46,7 @@ while True:
 	GPIO.output(LED,GPIO.LOW)
 
 	# Reseta os STM32
-	GPIO.output(PIN_OUT1, GPIO.HIGH)	# TODO Verificar se o STM32 reseta em alto ou baixo
-	GPIO.output(PIN_OUT2, GPIO.HIGH)
+	GPIO.output(PIN_RESET, GPIO.HIGH)	# TODO Verificar se o STM32 reseta em alto ou baixo
 
 	os.kill(pid, signal.SIGTERM)
 	os.kill(cam_proc, signal.SIGTERM)
