@@ -21,7 +21,7 @@ nEstados = 125
 frameRate = float(float(periodo)/float(nEstados))
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
 data_pelv = np.zeros((nEstados,8), dtype=np.uint8)
-angulo_vira = 5
+angulo_vira = 10
 bussola = 0
 meia_tela_pixel = 80.
 meia_tela_angulo = 25.
@@ -102,11 +102,11 @@ except IOError:
 
 
 #calculate turn tragetory
-vira_pelv = np.array([0]*nEstados, dtype=np.int8)
-vira_foot = np.array([0]*nEstados, dtype=np.int8)
+vira_cresce = np.array([0]*nEstados, dtype=np.int8)
+vira_decresce = np.array([0]*nEstados, dtype=np.int8)
 for indice in range(nEstados):
-	vira_pelv[indice] = angulo_vira + angulo_vira*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
-	vira_foot[indice] = angulo_vira - angulo_vira*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
+	vira_cresce[indice] = angulo_vira/2. + angulo_vira/2.*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
+	vira_decresce[indice] =-angulo_vira/2. - angulo_vira/2.*((np.exp((2*(indice-nEstados/2))/50) - np.exp((2*(indice-nEstados/2))/-50))/(np.exp((2*(indice-nEstados/2))/50)+np.exp((2*(indice-nEstados/2))/-50)))
 
 
 #read objetive direction
@@ -295,16 +295,16 @@ try:
 		if perna:
 			
 			if rota_dir == 1:
-				data_pelv[state][5] = 90 + vira_pelv[state]
+				data_pelv[state][5] = 90 + vira_cresce[state]
 			elif rota_dir == -1:
-				data_pelv[state][5] = 90 + vira_pelv[state]*-1
+				data_pelv[state][5] = 90 + vira_decresce[state]
 			else:
 				data_pelv[state][5] = 90
 
 			if rota_esq == 2:
-				data_foot[state][5] = 90 + vira_foot[state]
+				data_foot[state][5] = 90 + angulo_vira - vira_cresce[state]
 			elif rota_esq == -2:
-				data_foot[state][5] = 90 + vira_foot[state]*-1		
+				data_foot[state][5] = 90 - angulo_vira - vira_decresce[state]	
 			else:
 				data_foot[state][5] = 90
 			
@@ -322,16 +322,16 @@ try:
 		else:
 			
 			if rota_esq == 1:
-				data_pelv[state][5] = 90 + vira_pelv[state]
+				data_pelv[state][5] = 90 + vira_cresce[state]
 			elif rota_esq == -1:
-				data_pelv[state][5] = 90 + vira_pelv[state]*-1
+				data_pelv[state][5] = 90 + vira_decresce[state]
 			else:
 				data_pelv[state][5] = 90
 
 			if rota_dir == 2:
-				data_foot[state][5] = 90 + vira_foot[state]
+				data_foot[state][5] = 90 + angulo_vira - vira_cresce[state]
 			elif rota_dir == -2:
-				data_foot[state][5] = 90 + vira_foot[state]*-1		
+				data_foot[state][5] = 90 - angulo_vira - vira_decresce[state]		
 			else:
 				data_foot[state][5] = 90
 			
