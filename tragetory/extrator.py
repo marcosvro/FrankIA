@@ -341,7 +341,7 @@ try:
 			#send_pelv = np.array([255]+pos_controle[:5]+data_pelv[state][5:].tolist()+[254], dtype=np.uint8)
 			send_test = np.array([255]+data_foot[state].tolist()+[254], dtype=np.uint8)
 			#print (send_pelv, send_test)
-			print("0  ", rot_desvio,"   ", rota_esq," - ", send_test[6], "    ", rota_dir," - ", send_pelv[6])
+			print("0  ", rot_desvio,"   ", rota_esq," - ", send_pelv[6], "    ", rota_dir," - ", send_test[6])
 			ser.write(struct.pack('>10B', *(send_pelv.tolist())))
 			ser2.write(struct.pack('>10B', *(send_test.tolist())))
 			#ser.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))
