@@ -36,6 +36,7 @@ while cap.isOpened():
 	opening = cv2.morphologyEx(thresh,cv2.MORPH_OPEN,kernel, iterations = 2)
 
 	# sure background area
+	kernel = np.ones((3,15),np.uint8)
 	sure_bg = cv2.dilate(opening,kernel,iterations=3)
 	#cv2.imshow('path',sure_bg)
 	#cv2.imshow('original', img)
@@ -74,7 +75,7 @@ while cap.isOpened():
 		#print ("indice: ", indice_better-center_x)
 		
 		udp.sendto (str(indice_better-center_x).encode('utf-8'), dest)
-		"""if indice_better > center_x:
+		'''if indice_better > center_x:
 			result[center_y-pad_vertical:center_y+pad_vertical, center_x:indice_better] = (0, 0, 255)
 		else:
 			result[center_y-pad_vertical:center_y+pad_vertical, indice_better:center_x] = (0, 0, 255)
@@ -87,7 +88,7 @@ while cap.isOpened():
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
 	#print ("OK!!")
-	"""
+	'''
 	
 
 # When everything done, release the capture
