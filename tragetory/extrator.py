@@ -210,6 +210,7 @@ try:
 						rota_dir = 0
 					elif math.fabs(rota_dir) == 1:
 						rota_dir *= 2
+				print (rota_esq, rota_dir, rot_desvio)
 				
 			state = (state+1)%nEstados
 
