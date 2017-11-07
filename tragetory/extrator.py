@@ -25,7 +25,7 @@ angulo_vira = 10
 bussola = 0
 meia_tela_pixel = 80.
 meia_tela_angulo = 25.
-faixa_erro_rotacao = 5
+faixa_erro_rotacao = 7
 
 
 #Parametros de DH
