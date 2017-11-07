@@ -343,7 +343,8 @@ try:
 			ser2.write(struct.pack('>10B', *(send_test.tolist())))
 			#ser.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))
 			#ser2.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))
-				
+
+		print (rota_esq,rota_dir)				
 
 		#Camera read (30hz)
 		try:
