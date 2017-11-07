@@ -188,14 +188,14 @@ try:
 				perna = (perna+1)%2			
 				if math.fabs(rot_desvio) > 5:
 					if rot_desvio < 0:
-						if not perna:
+						if perna:
 							rota_esq = -1
 							rota_dir *= 2
 						else:
 							rota_dir = -1
 							rota_esq *= 2
 					else:
-						if not perna:
+						if perna:
 							rota_esq = 1
 							rota_dir *= 2
 						else:
@@ -316,7 +316,7 @@ try:
 			#print (send_test, send_pelv)
 			print("1  " ,rota_esq," - ",send_test[6], "    ", rota_dir," - ", send_pelv[6])
 			ser.write(struct.pack('>10B', *(send_test.tolist())))
-			ser2.write(struct.pack('>10B', *(send_pelv.tolist())))
+			#ser2.write(struct.pack('>10B', *(send_pelv.tolist())))
 			#ser.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))
 			#ser2.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))	
 		else:
@@ -343,7 +343,7 @@ try:
 			#print (send_pelv, send_test)
 			print("0  ", rota_esq," - ", send_test[6], "    ", rota_dir," - ", send_pelv[6])
 			ser.write(struct.pack('>10B', *(send_pelv.tolist())))
-			ser2.write(struct.pack('>10B', *(send_test.tolist())))
+			#ser2.write(struct.pack('>10B', *(send_test.tolist())))
 			#ser.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))
 			#ser2.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))				
 
