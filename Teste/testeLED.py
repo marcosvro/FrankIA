@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 
-LED = 21		# Pino do LED
-PIN_IN = 20     # Pino do switch
+LED = 12		# Pino do LED
+PIN_IN = 24    # Pino do switch
 
 # Configuração inicial
 GPIO.setmode(GPIO.BCM)
