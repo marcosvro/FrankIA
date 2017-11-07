@@ -36,7 +36,7 @@ while cap.isOpened():
 	opening = cv2.morphologyEx(thresh,cv2.MORPH_OPEN,kernel, iterations = 2)
 
 	# sure background area
-	kernel = np.ones((3,15),np.uint8)
+	kernel = np.ones((3,20),np.uint8)
 	sure_bg = cv2.dilate(opening,kernel,iterations=3)
 	#cv2.imshow('path',sure_bg)
 	#cv2.imshow('original', img)
