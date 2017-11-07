@@ -21,7 +21,7 @@ nEstados = 125
 frameRate = float(float(periodo)/float(nEstados))
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
 data_pelv = np.zeros((nEstados,8), dtype=np.uint8)
-angulo_vira = 10
+angulo_vira = 20
 bussola = 0
 meia_tela_pixel = 80.
 meia_tela_angulo = 25.
@@ -134,8 +134,8 @@ for i in range(nEstados):
 	data_foot[i][0] = (data_foot[i][0]-90)*-1 + 90
 	data_pelv[i][2] = (data_pelv[i][2]-90)*-1 + 90
 	data_foot[i][2] = (data_foot[i][2]-90)*-1 + 90
-	data_pelv[i][3] = data_pelv[i][3] + (-2)
-	data_foot[i][3] = data_foot[i][3] + (-2)
+	data_pelv[i][3] = data_pelv[i][3] + (0)
+	data_foot[i][3] = data_foot[i][3] + (0)
 	#data_pelv[i][1] = 128
 	#data_foot[i][4] = 90
 	data_foot[i][4] = int((data_foot[i][4]-90)/2.) + 90
