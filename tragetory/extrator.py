@@ -21,7 +21,7 @@ nEstados = 125
 frameRate = float(float(periodo)/float(nEstados))
 data_foot = np.zeros((nEstados,8), dtype=np.uint8)
 data_pelv = np.zeros((nEstados,8), dtype=np.uint8)
-angulo_vira = 10
+angulo_vira = 20
 bussola = 0
 meia_tela_pixel = 80.
 meia_tela_angulo = 25.
