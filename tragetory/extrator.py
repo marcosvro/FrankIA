@@ -256,7 +256,7 @@ try:
 			incli[0] =  90 + qua[2]# + pos_atual[4]
 			incli[1] =  90 + qua[3]# + pos_atual[5]
 			iner = np.array(np.rint(incli), dtype=np.uint8)
-			print (iner)
+			#print (iner)
 		
 		#controle
 		'''pos_desejada = np.deg2rad([i-90. for i in data_pelv[state][:6]])
@@ -345,7 +345,7 @@ try:
 			#ser.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))
 			#ser2.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))
 
-		print (rota_esq,rota_dir)				
+		#print (rota_esq,rota_dir)				
 
 		#Camera read (30hz)
 		try:
