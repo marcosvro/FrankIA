@@ -188,14 +188,14 @@ try:
 				perna = (perna+1)%2			
 				if math.fabs(rot_desvio) > 5:
 					if rot_desvio < 0:
-						if perna:
+						if not perna:
 							rota_esq = -1
 							rota_dir *= 2
 						else:
 							rota_dir = -1
 							rota_esq *= 2
 					else:
-						if perna:
+						if not perna:
 							rota_esq = 1
 							rota_dir *= 2
 						else:
