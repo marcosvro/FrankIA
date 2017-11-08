@@ -26,7 +26,7 @@ angulo_vira = 10
 bussola = 0
 meia_tela_pixel = 80.
 meia_tela_angulo = 25.
-faixa_erro_rotacao = 4
+faixa_erro_rotacao = 6
 
 
 #Parametros de DH
@@ -135,10 +135,10 @@ for i in range(nEstados):
 	data_foot[i][0] = (data_foot[i][0]-90)*-1 + 90
 	data_pelv[i][2] = (data_pelv[i][2]-90)*-1 + 90
 	data_foot[i][2] = (data_foot[i][2]-90)*-1 + 90
-	data_pelv[i][3] = data_pelv[i][3] + (-2)
-	data_foot[i][3] = data_foot[i][3] + (-2)
+	data_pelv[i][3] = data_pelv[i][3] + (-4)
+	data_foot[i][3] = data_foot[i][3] + (-4)
 	#data_pelv[i][1] = 128
-	data_foot[i][4] = 86
+	data_foot[i][4] = 87
 	#data_foot[i][4] = int((data_foot[i][4]-90)/2.) + 90
 
 
@@ -348,6 +348,7 @@ try:
 			#ser2.write(struct.pack('>10B', 255, 90, 90, 90, iner[0], iner[1], 90, 90, 90, 254))				
 
 		#Camera read (30hz)
+		#print ('\n',rot_desvio)
 		try:
 			msg, cliente = udp.recvfrom(20)
 			if len(msg) > 0 and int(msg) != 0:
