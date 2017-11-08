@@ -50,8 +50,8 @@ ser2 = serial.Serial('/dev/ttyUSB30', 230400, timeout=0)
 ser_uno = serial.Serial('/dev/ttyUSB40', 230400, timeout=0)
 
 #camera process inicialize
-os.system("python ~/FrankIA/visao/visao3.py&")
-cam_proc = int(check_output(["pidof", "python"]).split()[0])
+os.system("python ../visao/visao3.py&")
+#cam_proc = int(check_output(["pidof", "python"]).split()[0])
 
 #socket
 HOST = ''               # Endereco IP do Servidor
@@ -91,11 +91,11 @@ def me_ajuda_sinho(vet, mat):
 
 #read tragetory file
 try:
-	with open('/home/pi/FrankIA/tragetory/data_foot.txt', 'r') as f:
-		data_foot = np.loadtxt('/home/pi/FrankIA/tragetory/data_foot.txt').reshape((nEstados,8))
+	with open('data_foot.txt', 'r') as f:
+		data_foot = np.loadtxt('data_foot.txt').reshape((nEstados,8))
 		print ("File data_foot loaded!")
-	with open('/home/pi/FrankIA/tragetory/data_pelv.txt', 'r') as f:
-		data_pelv = np.loadtxt('/home/pi/FrankIA/tragetory/data_pelv.txt').reshape((nEstados,8))
+	with open('data_pelv.txt', 'r') as f:
+		data_pelv = np.loadtxt('data_pelv.txt').reshape((nEstados,8))
 		print ("File data_pelv loaded!")
 except IOError:
 	print ("Error!! tragetory file not found..")
@@ -138,7 +138,7 @@ for i in range(nEstados):
 	data_pelv[i][3] = data_pelv[i][3] + (-2)
 	data_foot[i][3] = data_foot[i][3] + (-2)
 	#data_pelv[i][1] = 128
-	data_foot[i][4] = 86
+	data_foot[i][4] = 90
 	#data_foot[i][4] = int((data_foot[i][4]-90)/2.) + 90
 
 
