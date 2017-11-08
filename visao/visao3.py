@@ -12,13 +12,15 @@ dest = (host, port)
 width = 160
 height = 120
 
-ch = 0.7
-cw = 0.3
+nFaixas = 5
+pixels_faixa = int(width/nFaixas)
+ch = 0.6
+cw = 0.4
 
 center_x = int(width/2)
 center_y = int(height/2)
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, width);
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height);
 
@@ -44,6 +46,105 @@ while cap.isOpened():
 	#process
 	indice_better = 0
 	dist_better = 0
+
+	alturas = np.array([0]*width, dtype=np.int)
+
+	#primeira faixa
+	inicio = 0
+	fim = pixels_faixa
+	aux = 0
+	for i in range(inicio, fim, 1):
+		dist_aux = 0
+		if sure_bg[height-1, i]:
+			continue
+		try:
+			dist_aux = float(height-1 - sure_bg[:height, i].nonzero()[0][-1])*ch
+		except IndexError:
+			continue
+		aux += dist_aux
+	aux /= pixels_faixa
+	aux += float(center_x-math.fabs(center_x-(inicio+(pixels_faixa/2.))))*cw
+	if(aux > dist_better):
+		indice_better = inicio+int(pixels_faixa/2.)
+		dist_better = aux
+
+
+	#segunda faixa
+	inicio = 1*pixels_faixa
+	fim = 2*pixels_faixa
+	aux = 0
+	for i in range(inicio, fim, 1):
+		dist_aux = 0
+		if sure_bg[height-1, i]:
+			continue
+		try:
+			dist_aux = float(height-1 - sure_bg[:height, i].nonzero()[0][-1])*ch
+		except IndexError:
+			continue
+		aux += dist_aux
+	aux /= pixels_faixa
+	aux += float(center_x-math.fabs(center_x-(inicio+(pixels_faixa/2.))))*cw
+	if(aux > dist_better):
+		indice_better = inicio+int(pixels_faixa/2.)
+		dist_better = aux
+
+	#terceira faixa
+	inicio = 2*pixels_faixa
+	fim = 3*pixels_faixa
+	aux = 0
+	for i in range(inicio, fim, 1):
+		dist_aux = 0
+		if sure_bg[height-1, i]:
+			continue
+		try:
+			dist_aux = float(height-1 - sure_bg[:height, i].nonzero()[0][-1])*ch
+		except IndexError:
+			continue
+		aux += dist_aux
+	aux /= pixels_faixa
+	aux += float(center_x-math.fabs(center_x-(inicio+(pixels_faixa/2.))))*cw
+	if(aux > dist_better):
+		indice_better = inicio+int(pixels_faixa/2.)
+		dist_better = aux
+
+	#quarta faixa
+	inicio = 3*pixels_faixa
+	fim = 4*pixels_faixa
+	aux = 0
+	for i in range(inicio, fim, 1):
+		dist_aux = 0
+		if sure_bg[height-1, i]:
+			continue
+		try:
+			dist_aux = float(height-1 - sure_bg[:height, i].nonzero()[0][-1])*ch
+		except IndexError:
+			continue
+		aux += dist_aux
+	aux /= pixels_faixa
+	aux += float(center_x-math.fabs(center_x-(inicio+(pixels_faixa/2.))))*cw
+	if(aux > dist_better):
+		indice_better = inicio+int(pixels_faixa/2.)
+		dist_better = aux
+
+	#quinta faixa
+	inicio = 4*pixels_faixa
+	fim = 5*pixels_faixa
+	aux = 0
+	for i in range(inicio, fim, 1):
+		dist_aux = 0
+		if sure_bg[height-1, i]:
+			continue
+		try:
+			dist_aux = float(height-1 - sure_bg[:height, i].nonzero()[0][-1])*ch
+		except IndexError:
+			continue
+		aux += dist_aux
+	aux /= pixels_faixa
+	aux += float(center_x-math.fabs(center_x-(inicio+(pixels_faixa/2.))))*cw
+	if(aux > dist_better):
+		indice_better = inicio+int(pixels_faixa/2.)
+		dist_better = aux
+	'''
 	for i in range(center_x, width, 1):
 		if sure_bg[height-1, i]:
 			break
@@ -66,6 +167,7 @@ while cap.isOpened():
 		if dist_aux > dist_better:
 			dist_better = dist_aux
 			indice_better = i
+	'''
 	#result = cv2.cvtColor(sure_bg,cv2.COLOR_GRAY2BGR)
 	
 	
@@ -93,7 +195,7 @@ while cap.isOpened():
 
 # When everything done, release the capture
 cap.release()
-#cv2.destroyAllWindows()
+cv2.destroyAllWindows()
 udp.close()
 
 
